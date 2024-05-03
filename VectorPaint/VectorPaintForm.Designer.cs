@@ -32,6 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pointBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.lineBtn = new System.Windows.Forms.Button();
+            this.circleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,11 +80,33 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "label2";
             // 
+            // lineBtn
+            // 
+            this.lineBtn.Location = new System.Drawing.Point(664, 42);
+            this.lineBtn.Name = "lineBtn";
+            this.lineBtn.Size = new System.Drawing.Size(75, 23);
+            this.lineBtn.TabIndex = 4;
+            this.lineBtn.Text = "Line";
+            this.lineBtn.UseVisualStyleBackColor = true;
+            this.lineBtn.Click += new System.EventHandler(this.lineBtn_Click);
+            // 
+            // circleBtn
+            // 
+            this.circleBtn.Location = new System.Drawing.Point(664, 71);
+            this.circleBtn.Name = "circleBtn";
+            this.circleBtn.Size = new System.Drawing.Size(75, 23);
+            this.circleBtn.TabIndex = 5;
+            this.circleBtn.Text = "Circle";
+            this.circleBtn.UseVisualStyleBackColor = true;
+            this.circleBtn.Click += new System.EventHandler(this.circleBtn_Click);
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 466);
+            this.Controls.Add(this.circleBtn);
+            this.Controls.Add(this.lineBtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pointBtn);
             this.Controls.Add(this.label1);
@@ -103,6 +127,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button pointBtn;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button lineBtn;
+        private System.Windows.Forms.Button circleBtn;
     }
 }
 

@@ -17,16 +17,27 @@ namespace VectorPaint
             InitializeComponent();
         }
 
+        // 엔티티 큐
         private List<Entities.Point> points = new List<Entities.Point>();
+        private List<Entities.Line> lines = new List<Entities.Line>();
+        private List<Entities.Circle> circles = new List<Entities.Circle>();
+
+        // 좌표정보
         private Vector3 currentPosition;
+        private Vector3 firstPoint;
+
+        // 0:점, 1:선
         private int DrawIndex = -1;
         private bool active_drawing = false;
+        private int ClickNum = 1;
 
+        // drawing 위에서 마우스가 움직일 때 이벤트
         private void drawing_MouseMove(object sender, MouseEventArgs e)
         {
             currentPosition = PointToCartesian(e.Location);
             label1.Text = string.Format("{0}, {1}", e.Location.X, e.Location.Y);
             label2.Text = string.Format("{0}, {1}", currentPosition.X, currentPosition.Y);
+            drawing.Refresh();
         }
 
         // DPI값
@@ -60,9 +71,42 @@ namespace VectorPaint
                 {
                     switch(DrawIndex)
                     {
+                        // point
                         case 0:
                             // 포인트 큐에 좌표 엔티티 추가
                             points.Add(new Entities.Point(currentPosition));
+                            break;
+                        // line
+                        case 1:
+                            switch(ClickNum)
+                            {
+                                case 1:
+                                    firstPoint = currentPosition;
+                                    points.Add(new Entities.Point(currentPosition));
+                                    ClickNum++;
+                                    break;
+                                case 2:
+                                    lines.Add(new Entities.Line(firstPoint, currentPosition));
+                                    points.Add(new Entities.Point(currentPosition));
+                                    firstPoint = currentPosition;
+                                    ClickNum = 1;
+                                    break;
+                            }
+                            break;
+                        // circle
+                        case 2:
+                            switch(ClickNum)
+                            {
+                                case 1:
+                                    firstPoint = currentPosition;
+                                    ClickNum++;
+                                    break;
+                                case 2:
+                                    double r = firstPoint.DistanceFrom(currentPosition);
+                                    circles.Add(new Entities.Circle(firstPoint, r));
+                                    ClickNum = 1;
+                                    break;
+                            }
                             break;
                     }
                     drawing.Refresh();
@@ -75,7 +119,11 @@ namespace VectorPaint
             // 화면 높이를 밀리미터 단위로 변환하여 설정
             e.Graphics.SetParameters(Pixcel_to_Mn(drawing.Height));
 
-            // 포인트 큐가 1건 이상인 경우
+            // 펜 객체 생성
+            Pen pen = new Pen(Color.Blue, 0.1f);
+            Pen extpen = new Pen(Color.Gray, 0.1f);
+
+            // 점 그리기
             if (points.Count > 0)
             {
                 // 포인트 큐의 좌표 엔티티 추출 반복
@@ -85,6 +133,50 @@ namespace VectorPaint
                     e.Graphics.DrawPoint(new Pen(Color.Red, 0), p);
                 }
             }
+
+            // 라인 그리기
+            if (lines.Count > 0)
+            {
+                // 포인트 큐의 좌표 엔티티 추출 반복
+                foreach (Entities.Line l in lines)
+                {
+                    // 라인 그리기
+                    e.Graphics.DrawLine(pen, l);
+                }
+            }
+
+            // 라인 그리기
+            if (circles.Count > 0)
+            {
+                // 포인트 큐의 좌표 엔티티 추출 반복
+                foreach (Entities.Circle c in circles)
+                {
+                    // 원 그리기
+                    e.Graphics.DrawCircle(pen, c);
+                }
+            }
+
+            // 라인 그리기 (확장)
+            switch (DrawIndex)
+            {
+                case 1:
+                    if (ClickNum == 2)
+                    {
+                        Entities.Line line = new Entities.Line(firstPoint, currentPosition);
+                        e.Graphics.DrawLine(extpen, line);
+                    }
+                    break;
+                case 2:
+                    if (ClickNum == 2)
+                    {
+                        Entities.Line line = new Entities.Line(firstPoint, currentPosition);
+                        e.Graphics.DrawLine(extpen, line);
+                        double r = firstPoint.DistanceFrom(currentPosition);
+                        Entities.Circle circle = new Entities.Circle(firstPoint, r);
+                        e.Graphics.DrawCircle(extpen, circle);
+                    }
+                    break;
+            }
         }
 
         // Point 버튼 클릭 시 이벤트
@@ -92,6 +184,20 @@ namespace VectorPaint
         private void pointBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 0;
+            active_drawing = true;
+            drawing.Cursor = Cursors.Cross;
+        }
+
+        private void lineBtn_Click(object sender, EventArgs e)
+        {
+            DrawIndex = 1;
+            active_drawing = true;
+            drawing.Cursor = Cursors.Cross;
+        }
+
+        private void circleBtn_Click(object sender, EventArgs e)
+        {
+            DrawIndex = 2;
             active_drawing = true;
             drawing.Cursor = Cursors.Cross;
         }
