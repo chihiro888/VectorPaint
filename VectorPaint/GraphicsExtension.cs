@@ -46,5 +46,15 @@ namespace VectorPaint
             g.DrawEllipse(pen, x, y, d, d);
             g.ResetTransform();
         }
+
+        public static void DrawEllipse(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Ellipse ellipse)
+        {
+        
+            SetTransform(g);
+            g.TranslateTransform(ellipse.Center.ToPointF.X, ellipse.Center.ToPointF.Y);
+            g.RotateTransform((float)ellipse.Rotation);
+            g.DrawEllipse(pen, -(float)ellipse.MajorAxis, -(float)ellipse.MinorAxis, (float)ellipse.MajorAxis * 2, (float)ellipse.MinorAxis * 2);
+            g.ResetTransform();
+        }
     }
 }

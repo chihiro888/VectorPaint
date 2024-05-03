@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lineBtn = new System.Windows.Forms.Button();
             this.circleBtn = new System.Windows.Forms.Button();
+            this.ellipseBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,11 +101,22 @@
             this.circleBtn.UseVisualStyleBackColor = true;
             this.circleBtn.Click += new System.EventHandler(this.circleBtn_Click);
             // 
+            // ellipseBtn
+            // 
+            this.ellipseBtn.Location = new System.Drawing.Point(664, 100);
+            this.ellipseBtn.Name = "ellipseBtn";
+            this.ellipseBtn.Size = new System.Drawing.Size(75, 23);
+            this.ellipseBtn.TabIndex = 6;
+            this.ellipseBtn.Text = "Ellipse";
+            this.ellipseBtn.UseVisualStyleBackColor = true;
+            this.ellipseBtn.Click += new System.EventHandler(this.ellipseBtn_Click);
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 466);
+            this.Controls.Add(this.ellipseBtn);
             this.Controls.Add(this.circleBtn);
             this.Controls.Add(this.lineBtn);
             this.Controls.Add(this.label2);
@@ -129,6 +141,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button lineBtn;
         private System.Windows.Forms.Button circleBtn;
+        private System.Windows.Forms.Button ellipseBtn;
     }
 }
 

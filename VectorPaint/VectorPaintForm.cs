@@ -21,10 +21,12 @@ namespace VectorPaint
         private List<Entities.Point> points = new List<Entities.Point>();
         private List<Entities.Line> lines = new List<Entities.Line>();
         private List<Entities.Circle> circles = new List<Entities.Circle>();
+        private List<Entities.Ellipse> ellipses = new List<Entities.Ellipse>();
 
         // 좌표정보
         private Vector3 currentPosition;
         private Vector3 firstPoint;
+        private Vector3 secondPoint;
 
         // 0:점, 1:선
         private int DrawIndex = -1;
@@ -108,6 +110,25 @@ namespace VectorPaint
                                     break;
                             }
                             break;
+                        // Ellipse
+                        case 3:
+                            switch(ClickNum)
+                            {
+                                case 1:
+                                    firstPoint = currentPosition;
+                                    ClickNum++;
+                                    break;
+                                case 2:
+                                    secondPoint = currentPosition;
+                                    ClickNum++;
+                                    break;
+                                case 3:
+                                    Entities.Ellipse ellipse = Methods.Method.GetEllipse(firstPoint, secondPoint, currentPosition);
+                                    ellipses.Add(ellipse);
+                                    ClickNum = 1;
+                                    break;
+                            }
+                            break;
                     }
                     drawing.Refresh();
                 }
@@ -145,7 +166,7 @@ namespace VectorPaint
                 }
             }
 
-            // 라인 그리기
+            // 원 그리기
             if (circles.Count > 0)
             {
                 // 포인트 큐의 좌표 엔티티 추출 반복
@@ -153,6 +174,17 @@ namespace VectorPaint
                 {
                     // 원 그리기
                     e.Graphics.DrawCircle(pen, c);
+                }
+            }
+
+            // 타원 그리기
+            if (ellipses.Count > 0)
+            {
+                // 포인트 큐의 좌표 엔티티 추출 반복
+                foreach (Entities.Ellipse elp in ellipses)
+                {
+                    // 타원 그리기
+                    e.Graphics.DrawEllipse(pen, elp);
                 }
             }
 
@@ -174,6 +206,21 @@ namespace VectorPaint
                         double r = firstPoint.DistanceFrom(currentPosition);
                         Entities.Circle circle = new Entities.Circle(firstPoint, r);
                         e.Graphics.DrawCircle(extpen, circle);
+                    }
+                    break;
+                case 3:
+                    switch (ClickNum)
+                    {
+                        case 2:
+                            Entities.Line line = new Entities.Line(firstPoint, currentPosition);
+                            e.Graphics.DrawLine(extpen, line);
+                            break;
+                        case 3:
+                            Entities.Line line1 = new Entities.Line(firstPoint, currentPosition);
+                            e.Graphics.DrawLine(extpen, line1);
+                            Entities.Ellipse elp = Methods.Method.GetEllipse(firstPoint, secondPoint, currentPosition);
+                            e.Graphics.DrawEllipse(extpen, elp);
+                            break;
                     }
                     break;
             }
@@ -198,6 +245,13 @@ namespace VectorPaint
         private void circleBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 2;
+            active_drawing = true;
+            drawing.Cursor = Cursors.Cross;
+        }
+
+        private void ellipseBtn_Click(object sender, EventArgs e)
+        {
+            DrawIndex = 3;
             active_drawing = true;
             drawing.Cursor = Cursors.Cross;
         }
