@@ -71,11 +71,11 @@ namespace VectorPaint
         // 마우스 클릭 시 이벤트
         private void drawing_MouseDown(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
-                if(active_drawing)
+                if (active_drawing)
                 {
-                    switch(DrawIndex)
+                    switch (DrawIndex)
                     {
                         // point
                         case 0:
@@ -84,7 +84,7 @@ namespace VectorPaint
                             break;
                         // line
                         case 1:
-                            switch(ClickNum)
+                            switch (ClickNum)
                             {
                                 case 1:
                                     firstPoint = currentPosition;
@@ -101,7 +101,7 @@ namespace VectorPaint
                             break;
                         // circle
                         case 2:
-                            switch(ClickNum)
+                            switch (ClickNum)
                             {
                                 case 1:
                                     firstPoint = currentPosition;
@@ -116,7 +116,7 @@ namespace VectorPaint
                             break;
                         // Ellipse
                         case 3:
-                            switch(ClickNum)
+                            switch (ClickNum)
                             {
                                 case 1:
                                     firstPoint = currentPosition;
@@ -143,7 +143,7 @@ namespace VectorPaint
                                     break;
                                 case 2:
                                     polylines.Add(Methods.Method.PointToRect(firstPoint, currentPosition, out direction));
-                                                ClickNum = 1;
+                                    ClickNum = 1;
                                     break;
                             }
                             break;
@@ -166,7 +166,7 @@ namespace VectorPaint
             if (points.Count > 0)
             {
                 // 포인트 큐의 좌표 엔티티 추출 반복
-                foreach(Entities.Point p in points)
+                foreach (Entities.Point p in points)
                 {
                     // 점 그리기
                     e.Graphics.DrawPoint(new Pen(Color.Red, 0), p);
@@ -209,7 +209,7 @@ namespace VectorPaint
             // 사각형 그리기
             if (polylines.Count > 0)
             {
-                foreach(LwPolyline lw in polylines)
+                foreach (LwPolyline lw in polylines)
                 {
                     e.Graphics.DrawLwPolyline(pen, lw);
                 }
@@ -327,6 +327,19 @@ namespace VectorPaint
             DrawIndex = 4;
             active_drawing = true;
             drawing.Cursor = Cursors.Cross;
+        }
+
+        private void allClearBtn_Click(object sender, EventArgs e)
+        {
+            // Clear all lists containing shapes
+            points.Clear();
+            lines.Clear();
+            circles.Clear();
+            ellipses.Clear();
+            polylines.Clear();
+
+            // Refresh the drawing area to reflect the changes
+            drawing.Refresh();
         }
     }
 }

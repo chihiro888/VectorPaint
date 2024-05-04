@@ -36,6 +36,7 @@
             this.circleBtn = new System.Windows.Forms.Button();
             this.ellipseBtn = new System.Windows.Forms.Button();
             this.RectangleBtn = new System.Windows.Forms.Button();
+            this.allClearBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,6 +66,9 @@
             // 
             // pointBtn
             // 
+            this.pointBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pointBtn.Location = new System.Drawing.Point(663, 12);
             this.pointBtn.Name = "pointBtn";
             this.pointBtn.Size = new System.Drawing.Size(75, 23);
@@ -75,6 +79,8 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 386);
             this.label2.Name = "label2";
@@ -84,6 +90,9 @@
             // 
             // lineBtn
             // 
+            this.lineBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lineBtn.Location = new System.Drawing.Point(664, 42);
             this.lineBtn.Name = "lineBtn";
             this.lineBtn.Size = new System.Drawing.Size(75, 23);
@@ -94,6 +103,9 @@
             // 
             // circleBtn
             // 
+            this.circleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.circleBtn.Location = new System.Drawing.Point(664, 71);
             this.circleBtn.Name = "circleBtn";
             this.circleBtn.Size = new System.Drawing.Size(75, 23);
@@ -104,6 +116,9 @@
             // 
             // ellipseBtn
             // 
+            this.ellipseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ellipseBtn.Location = new System.Drawing.Point(664, 100);
             this.ellipseBtn.Name = "ellipseBtn";
             this.ellipseBtn.Size = new System.Drawing.Size(75, 23);
@@ -114,6 +129,9 @@
             // 
             // RectangleBtn
             // 
+            this.RectangleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.RectangleBtn.Location = new System.Drawing.Point(664, 130);
             this.RectangleBtn.Name = "RectangleBtn";
             this.RectangleBtn.Size = new System.Drawing.Size(75, 23);
@@ -122,11 +140,25 @@
             this.RectangleBtn.UseVisualStyleBackColor = true;
             this.RectangleBtn.Click += new System.EventHandler(this.RectangleBtn_Click);
             // 
+            // allClearBtn
+            // 
+            this.allClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.allClearBtn.Location = new System.Drawing.Point(663, 182);
+            this.allClearBtn.Name = "allClearBtn";
+            this.allClearBtn.Size = new System.Drawing.Size(75, 23);
+            this.allClearBtn.TabIndex = 8;
+            this.allClearBtn.Text = "All Clear";
+            this.allClearBtn.UseVisualStyleBackColor = true;
+            this.allClearBtn.Click += new System.EventHandler(this.allClearBtn_Click);
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 39F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 466);
+            this.Controls.Add(this.allClearBtn);
             this.Controls.Add(this.RectangleBtn);
             this.Controls.Add(this.ellipseBtn);
             this.Controls.Add(this.circleBtn);
@@ -136,6 +168,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.drawing);
             this.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "VectorPaintForm";
             this.Text = "Form1";
@@ -155,6 +188,7 @@
         private System.Windows.Forms.Button circleBtn;
         private System.Windows.Forms.Button ellipseBtn;
         private System.Windows.Forms.Button RectangleBtn;
+        private System.Windows.Forms.Button allClearBtn;
     }
 }
 

@@ -11,6 +11,7 @@ namespace VectorPaint
     public static class GraphicsExtension
     {
         private static float Height;
+        private static Pen extpen = new Pen(Color.Gray, 0);
 
         public static void SetParameters(this System.Drawing.Graphics g, float height)
         {
