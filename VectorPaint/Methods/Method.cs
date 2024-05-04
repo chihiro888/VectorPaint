@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VectorPaint.Entities;
 
 namespace VectorPaint.Methods
 {
@@ -24,6 +25,28 @@ namespace VectorPaint.Methods
             Entities.Ellipse elp = new Entities.Ellipse(center, major, minor);
             elp.Rotation = angle;
             return elp;
+        }
+
+        public static LwPolyline PointToRect(Vector3 firstCorner, Vector3 secondCorner, out int direction)
+        {
+            double x = Math.Min(firstCorner.X, secondCorner.X);
+            double y = Math.Min(firstCorner.Y, secondCorner.Y);
+            double width = Math.Abs(secondCorner.X - firstCorner.X);
+            double height = Math.Abs(secondCorner.Y - firstCorner.Y);
+
+            double dx = secondCorner.X - firstCorner.X;
+
+            List<LwPolylineVertex> vertexes = new List<LwPolylineVertex>();
+            vertexes.Add(new LwPolylineVertex(x, y));
+            vertexes.Add(new LwPolylineVertex(x + width, y));
+            vertexes.Add(new LwPolylineVertex(x + width, y + height));
+            vertexes.Add(new LwPolylineVertex(x, y + height));
+
+            if (dx > 0) direction = 1;
+            else if (dx < 0) direction = 2;
+            else direction = -1;
+
+            return new LwPolyline(vertexes, true);
         }
     }
 }

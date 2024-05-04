@@ -35,6 +35,7 @@
             this.lineBtn = new System.Windows.Forms.Button();
             this.circleBtn = new System.Windows.Forms.Button();
             this.ellipseBtn = new System.Windows.Forms.Button();
+            this.RectangleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,7 +59,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 356);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 19);
+            this.label1.Size = new System.Drawing.Size(95, 39);
             this.label1.TabIndex = 1;
             this.label1.Text = "label1";
             // 
@@ -77,7 +78,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 386);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 19);
+            this.label2.Size = new System.Drawing.Size(95, 39);
             this.label2.TabIndex = 3;
             this.label2.Text = "label2";
             // 
@@ -111,11 +112,22 @@
             this.ellipseBtn.UseVisualStyleBackColor = true;
             this.ellipseBtn.Click += new System.EventHandler(this.ellipseBtn_Click);
             // 
+            // RectangleBtn
+            // 
+            this.RectangleBtn.Location = new System.Drawing.Point(664, 130);
+            this.RectangleBtn.Name = "RectangleBtn";
+            this.RectangleBtn.Size = new System.Drawing.Size(75, 23);
+            this.RectangleBtn.TabIndex = 7;
+            this.RectangleBtn.Text = "Rectangle";
+            this.RectangleBtn.UseVisualStyleBackColor = true;
+            this.RectangleBtn.Click += new System.EventHandler(this.RectangleBtn_Click);
+            // 
             // VectorPaintForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 39F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 466);
+            this.Controls.Add(this.RectangleBtn);
             this.Controls.Add(this.ellipseBtn);
             this.Controls.Add(this.circleBtn);
             this.Controls.Add(this.lineBtn);
@@ -142,6 +154,7 @@
         private System.Windows.Forms.Button lineBtn;
         private System.Windows.Forms.Button circleBtn;
         private System.Windows.Forms.Button ellipseBtn;
+        private System.Windows.Forms.Button RectangleBtn;
     }
 }
 

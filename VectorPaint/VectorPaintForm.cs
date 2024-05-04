@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VectorPaint.Entities;
 
 namespace VectorPaint
 {
@@ -22,6 +23,8 @@ namespace VectorPaint
         private List<Entities.Line> lines = new List<Entities.Line>();
         private List<Entities.Circle> circles = new List<Entities.Circle>();
         private List<Entities.Ellipse> ellipses = new List<Entities.Ellipse>();
+        private List<LwPolyline> polylines = new List<LwPolyline>();
+        private LwPolyline tempPolyline = new LwPolyline();
 
         // 좌표정보
         private Vector3 currentPosition;
@@ -32,6 +35,7 @@ namespace VectorPaint
         private int DrawIndex = -1;
         private bool active_drawing = false;
         private int ClickNum = 1;
+        private int direction;
 
         // drawing 위에서 마우스가 움직일 때 이벤트
         private void drawing_MouseMove(object sender, MouseEventArgs e)
@@ -53,7 +57,7 @@ namespace VectorPaint
         }
 
         // 화면 좌표를 카테시안 좌표로 변환
-        private Vector3 PointToCartesian(Point point)
+        private Vector3 PointToCartesian(System.Drawing.Point point)
         {
             return new Vector3(Pixcel_to_Mn(point.X), Pixcel_to_Mn(drawing.Height - point.Y));
         }
@@ -129,6 +133,20 @@ namespace VectorPaint
                                     break;
                             }
                             break;
+                        // Rectangle
+                        case 4:
+                            switch (ClickNum)
+                            {
+                                case 1:
+                                    firstPoint = currentPosition;
+                                    ClickNum++;
+                                    break;
+                                case 2:
+                                    polylines.Add(Methods.Method.PointToRect(firstPoint, currentPosition, out direction));
+                                                ClickNum = 1;
+                                    break;
+                            }
+                            break;
                     }
                     drawing.Refresh();
                 }
@@ -188,6 +206,15 @@ namespace VectorPaint
                 }
             }
 
+            // 사각형 그리기
+            if (polylines.Count > 0)
+            {
+                foreach(LwPolyline lw in polylines)
+                {
+                    e.Graphics.DrawLwPolyline(pen, lw);
+                }
+            }
+
             // 라인 그리기 (확장)
             switch (DrawIndex)
             {
@@ -223,7 +250,46 @@ namespace VectorPaint
                             break;
                     }
                     break;
+                case 4:
+                    if (ClickNum == 2)
+                    {
+                        LwPolyline lw = Methods.Method.PointToRect(firstPoint, currentPosition, out direction);
+                        e.Graphics.DrawLwPolyline(extpen, lw);
+                    }
+                    break;
             }
+        }
+
+        private void LwPolylineCloseStatus(int index)
+        {
+            List<LwPolylineVertex> vertexes = new List<LwPolylineVertex>();
+            foreach (LwPolylineVertex lw in tempPolyline.Vertexes)
+                vertexes.Add(lw);
+            if (vertexes.Count > 1)
+            {
+                switch (index)
+                {
+                    case 1:
+                        if (vertexes.Count > 2)
+                            polylines.Add(new LwPolyline(vertexes, true));
+                        else
+                            polylines.Add(new LwPolyline(vertexes, false));
+                        break;
+                    case 2:
+                        polylines.Add(new LwPolyline(vertexes, false));
+                        break;
+                }
+            }
+            tempPolyline.Vertexes.Clear();
+        }
+
+        private void CancelAll(int index = 1)
+        {
+            DrawIndex = -1;
+            active_drawing = false;
+            drawing.Cursor = Cursors.Default;
+            ClickNum = 1;
+            LwPolylineCloseStatus(index);
         }
 
         // Point 버튼 클릭 시 이벤트
@@ -252,6 +318,13 @@ namespace VectorPaint
         private void ellipseBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 3;
+            active_drawing = true;
+            drawing.Cursor = Cursors.Cross;
+        }
+
+        private void RectangleBtn_Click(object sender, EventArgs e)
+        {
+            DrawIndex = 4;
             active_drawing = true;
             drawing.Cursor = Cursors.Cross;
         }
