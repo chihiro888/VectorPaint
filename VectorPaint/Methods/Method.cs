@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using VectorPaint.Entities;
 
 namespace VectorPaint.Methods
@@ -163,6 +163,99 @@ namespace VectorPaint.Methods
             }
 
             return new LwPolyline(vertexs, true);
+        }
+
+        // #021 - custom cursor
+        public static Bitmap SetCursor(int index, float size, Color color)
+        {
+            Bitmap bmp = new Bitmap((int)size + 1, (int)size + 1);
+            float cx = size / 2;
+            float cy = size / 2;
+            PointF[] points;
+
+            using(Graphics gr = Graphics.FromImage(bmp))
+            {
+                gr.Clear(Color.Transparent);
+                switch(index)
+                {
+                    // default cursor
+                    case 0:
+                        break;
+                    // drawing cursor
+                    case 1:
+                        points = new PointF[]
+                        {
+                            new PointF(cx, 0),
+                            new PointF(2 * cx, cy),
+                            new PointF(cx, 2 * cy),
+                            new PointF(0, cy)
+                        };
+
+                        gr.DrawLine(new Pen(color, 2.0f), points[0], points[2]);
+                        gr.DrawLine(new Pen(color, 2.0f), points[1], points[3]);
+                        break;
+                    // editing cursor
+                    case 2:
+                        points = new PointF[]
+                        {
+                                new PointF(1, 1),
+                                new PointF(2 * cx - 1, 1),
+                                new PointF(2 * cx - 1, 2 * cy - 1),
+                                new PointF(1, 2 * cy - 1)
+                        };
+
+                        gr.DrawPolygon(new Pen(color, 2.0f), points);
+                        break;
+                }
+                return bmp;
+            }
+        }
+
+        // #022 - distance from a point to a line
+        public static double DistanceFromLine(Line line, Vector3 point, out Vector3 closest, bool IsExtended = false)
+        {
+            double x1 = line.StartPoint.X;
+            double y1 = line.StartPoint.Y;
+            double x2 = line.EndPoint.X;
+            double y2 = line.EndPoint.Y;
+
+            double x = point.X;
+            double y = point.Y;
+
+            double dx = x2 - x1;
+            double dy = y2 - y1;
+
+            if ((dx == 0) && (dy == 0))
+            {
+                closest = line.StartPoint;
+                dx = x - x1;
+                dy = y - y1;
+                return Math.Sqrt(dx * dx + dy * dy);
+            }
+
+            double k = ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy);
+
+            closest = new Vector3(x1 + k * dx, y1 + k * dy);
+            dx = x - closest.X;
+            dy = y - closest.Y;
+
+            if (!IsExtended)
+            {
+                if (k < 0)
+                {
+                    closest = new Vector3(x1, y1);
+                    dx = x - x1;
+                    dy = y - y1;
+                }
+                else if (k > 1)
+                {
+                    closest = new Vector3(x2, y2);
+                    dx = x - x2;
+                    dy = y - y2;
+                }
+            }
+
+            return Math.Sqrt(dx * dx + dy * dy);
         }
     }
 }

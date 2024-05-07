@@ -29,13 +29,29 @@ namespace VectorPaint
         private Vector3 firstPoint;
         private Vector3 secondPoint;
 
+        // system point
+        private System.Drawing.Point firstCorner;
+
+        // int
         // 0:점, 1:선, 2:원, 3:타원, 4:사각형, 5: 삼각형
         private int DrawIndex = -1;
-        private bool active_drawing = false;
         private int ClickNum = 1;
+        private int zoomClick = 1;
         private int direction;
         private int sideQty = 3;
         private int inscribed = 1;
+
+        // float
+        private float XScroll;
+        private float YScroll;
+        private float ScaleFactor = 1.0f;
+
+        // bool
+        private bool active_drawing = false;
+        private bool active_zoom = false;
+
+        // base
+        private SizeF drawingSize = new SizeF(297, 210);
 
         // drawing 위에서 마우스가 움직일 때 이벤트
         private void drawing_MouseMove(object sender, MouseEventArgs e)
@@ -56,16 +72,92 @@ namespace VectorPaint
             }
         }
 
+        private void ActiveCursor(int index, float size = 5)
+        {
+            Cursor cursor = Cursors.Default;
+            if (index > 0)
+                cursor = new Cursor(Method.SetCursor(index, Mn_to_Pixel(size), Color.Red).GetHicon());
+            drawing.Cursor = cursor;
+        }
+
         // 화면 좌표를 카테시안 좌표로 변환
         private Vector3 PointToCartesian(System.Drawing.Point point)
         {
-            return new Vector3(Pixcel_to_Mn(point.X), Pixcel_to_Mn(drawing.Height - point.Y));
+            return new Vector3(Pixel_to_Mn(point.X), Pixel_to_Mn(drawing.Height - point.Y));
         }
 
         // 화면 픽셀 값을 밀리미터 단위로 변환
-        private float Pixcel_to_Mn(float pixel)
+        private float Pixel_to_Mn(float pixel)
         {
             return pixel * 25.4f / DPI;
+        }
+
+        // 밀리미터 단위를 화면 픽셀 값로 변환
+        private float Mn_to_Pixel(float pixel)
+        {
+            return pixel / 25.4f * DPI;
+        }
+
+        // #023 - zoom & crop
+        private void SetZoomWin(System.Drawing.Point firstCorner, System.Drawing.Point secondCorner)
+        {
+            Vector3 p1 = PointToCartesian(firstCorner);
+            Vector3 p2 = PointToCartesian(secondCorner);
+
+            float minX = Math.Min(p1.ToPointF.X, p2.ToPointF.X);
+            float minY = Math.Min(p1.ToPointF.Y, p2.ToPointF.Y);
+
+            float w = Math.Abs(firstCorner.X - secondCorner.X);
+            float h = Math.Abs(firstCorner.Y - secondCorner.Y);
+
+            float width = drawing.ClientSize.Width / w;
+            float height = drawing.ClientSize.Height / h;
+
+            float min = Math.Min(width, height);
+
+            ScaleFactor *= min;
+
+            float wl = (drawing.ClientSize.Width - w * min) / 2;
+            float hl = (drawing.ClientSize.Height - h * min) / 2;
+
+            XScroll = ScaleFactor * minX - Pixel_to_Mn(wl);
+            YScroll = ScaleFactor * minY - Pixel_to_Mn(hl);
+        }
+
+        // #023 - zoom & crop
+        private void SetZoomInOut(int index)
+        {
+            float scale = (index == 0) ? 1 / 1.25f : 1.25f;
+
+            ScaleFactor *= scale;
+
+            float width = drawing.ClientSize.Width * scale;
+            float height = drawing.ClientSize.Height * scale;
+
+            float wl = (drawing.ClientSize.Width - width) / 2;
+            float hl = (drawing.ClientSize.Height - height) / 2;
+
+            XScroll = XScroll * scale - Pixel_to_Mn(wl);
+            YScroll = YScroll * scale + Pixel_to_Mn(hl);
+        }
+
+        // #023 - zoom & crop
+        private void ZoomEvents(int index)
+        {
+            switch (index)
+            {
+                // zoom in
+                case 0:
+                // zoom out
+                case 1:
+                    SetZoomInOut(index);
+                    break;
+                // zoom window
+                case 2:
+                    active_zoom = true;
+                    ActiveCursor(1);
+                    break;
+            }
         }
 
         // 마우스 클릭 시 이벤트
@@ -73,7 +165,23 @@ namespace VectorPaint
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (active_drawing)
+                if (active_zoom)
+                {
+                    switch (zoomClick)
+                    {
+                        case 1:
+                            firstCorner = e.Location;
+                            zoomClick++;
+                            break;
+                        case 2:
+                            SetZoomWin(firstCorner, e.Location);
+                            active_zoom = false;
+                            zoomClick = 1;
+                            break;
+                    }
+                }
+
+                if (active_drawing && !active_zoom)
                 {
                     switch (DrawIndex)
                     {
@@ -161,18 +269,16 @@ namespace VectorPaint
                                     break;
                             }
                             break;
-
                     }
-
-                    drawing.Refresh();
                 }
+                drawing.Refresh();
             }
         }
 
         private void drawing_Paint(object sender, PaintEventArgs e)
         {
             // 화면 높이를 밀리미터 단위로 변환하여 설정
-            e.Graphics.SetParameters(Pixcel_to_Mn(drawing.Height));
+            e.Graphics.SetParameters(Pixel_to_Mn(drawing.Height));
 
             // 펜 객체 생성
             Pen pen = new Pen(Color.Blue, 0.1f);
@@ -182,11 +288,21 @@ namespace VectorPaint
             // 엔티티 그리기
             if (entity.Count > 0)
             {
+                        
                 // 포인트 큐의 좌표 엔티티 추출 반복
-                foreach (EntityObject entities in entity)
+                foreach (EntityObject ent in entity)
                 {
+                    /*
+                    if (ent is Line)
+                    {
+                        double d = Method.DistanceFromLine(ent as Line, currentPosition, out Vector3 v);
+                        e.Graphics.DrawPoint(new Pen(Color.Red, 1), new Entities.Point(v));
+                        Text = d.ToString();
+                    }
+                    */
+
                     // 엔티티 그리기
-                    e.Graphics.DrawEntity(pen, entities);
+                    e.Graphics.DrawEntity(pen, ent);
                 }
             }
 
@@ -247,6 +363,17 @@ namespace VectorPaint
                     }
                     break;
             }
+
+            if (active_zoom)
+            {
+                switch (zoomClick)
+                {
+                    case 2:
+                        LwPolyline rect = Methods.Method.PointToRect(PointToCartesian(firstCorner), currentPosition, out direction);
+                        e.Graphics.DrawLwPolyline(new Pen(Color.Red, 0), rect);
+                        break;
+                }
+            }
         }
 
         private void LwPolylineCloseStatus(int index)
@@ -276,7 +403,7 @@ namespace VectorPaint
         {
             DrawIndex = -1;
             active_drawing = false;
-            drawing.Cursor = Cursors.Default;
+            ActiveCursor(0);
             ClickNum = 1;
             LwPolylineCloseStatus(index);
         }
@@ -287,42 +414,42 @@ namespace VectorPaint
         {
             DrawIndex = 0;
             active_drawing = true;
-            drawing.Cursor = Cursors.Cross;
+            ActiveCursor(1);
         }
 
         private void lineBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 1;
             active_drawing = true;
-            drawing.Cursor = Cursors.Cross;
+            ActiveCursor(1);
         }
 
         private void circleBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 2;
             active_drawing = true;
-            drawing.Cursor = Cursors.Cross;
+            ActiveCursor(1);
         }
 
         private void ellipseBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 3;
             active_drawing = true;
-            drawing.Cursor = Cursors.Cross;
+            ActiveCursor(1);
         }
 
         private void RectangleBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 4;
             active_drawing = true;
-            drawing.Cursor = Cursors.Cross;
+            ActiveCursor(1);
         }
 
         private void polygonBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 5;
             active_drawing = true;
-            drawing.Cursor = Cursors.Cross;
+            ActiveCursor(1);
         }
 
         private void allClearBtn_Click(object sender, EventArgs e)
@@ -332,6 +459,21 @@ namespace VectorPaint
 
             // Refresh the drawing area to reflect the changes
             drawing.Refresh();
+        }
+
+        private void zoomInBtn_Click(object sender, EventArgs e)
+        {
+            ZoomEvents(0);
+        }
+
+        private void zoomOutBtn_Click(object sender, EventArgs e)
+        {
+            ZoomEvents(1);
+        }
+
+        private void zoomWinBtn_Click(object sender, EventArgs e)
+        {
+            ZoomEvents(2);
         }
     }
 }

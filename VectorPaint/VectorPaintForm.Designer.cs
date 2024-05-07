@@ -38,6 +38,9 @@
             this.RectangleBtn = new System.Windows.Forms.Button();
             this.allClearBtn = new System.Windows.Forms.Button();
             this.polygonBtn = new System.Windows.Forms.Button();
+            this.zoomInBtn = new System.Windows.Forms.Button();
+            this.zoomOutBtn = new System.Windows.Forms.Button();
+            this.zoomWinBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,7 +75,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pointBtn.Location = new System.Drawing.Point(663, 12);
             this.pointBtn.Name = "pointBtn";
-            this.pointBtn.Size = new System.Drawing.Size(75, 23);
+            this.pointBtn.Size = new System.Drawing.Size(101, 23);
             this.pointBtn.TabIndex = 2;
             this.pointBtn.Text = "Point";
             this.pointBtn.UseVisualStyleBackColor = true;
@@ -96,7 +99,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lineBtn.Location = new System.Drawing.Point(664, 42);
             this.lineBtn.Name = "lineBtn";
-            this.lineBtn.Size = new System.Drawing.Size(75, 23);
+            this.lineBtn.Size = new System.Drawing.Size(101, 23);
             this.lineBtn.TabIndex = 4;
             this.lineBtn.Text = "Line";
             this.lineBtn.UseVisualStyleBackColor = true;
@@ -109,7 +112,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.circleBtn.Location = new System.Drawing.Point(664, 71);
             this.circleBtn.Name = "circleBtn";
-            this.circleBtn.Size = new System.Drawing.Size(75, 23);
+            this.circleBtn.Size = new System.Drawing.Size(101, 23);
             this.circleBtn.TabIndex = 5;
             this.circleBtn.Text = "Circle";
             this.circleBtn.UseVisualStyleBackColor = true;
@@ -122,7 +125,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ellipseBtn.Location = new System.Drawing.Point(664, 100);
             this.ellipseBtn.Name = "ellipseBtn";
-            this.ellipseBtn.Size = new System.Drawing.Size(75, 23);
+            this.ellipseBtn.Size = new System.Drawing.Size(101, 23);
             this.ellipseBtn.TabIndex = 6;
             this.ellipseBtn.Text = "Ellipse";
             this.ellipseBtn.UseVisualStyleBackColor = true;
@@ -135,7 +138,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RectangleBtn.Location = new System.Drawing.Point(664, 130);
             this.RectangleBtn.Name = "RectangleBtn";
-            this.RectangleBtn.Size = new System.Drawing.Size(75, 23);
+            this.RectangleBtn.Size = new System.Drawing.Size(101, 23);
             this.RectangleBtn.TabIndex = 7;
             this.RectangleBtn.Text = "Rectangle";
             this.RectangleBtn.UseVisualStyleBackColor = true;
@@ -148,7 +151,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.allClearBtn.Location = new System.Drawing.Point(664, 326);
             this.allClearBtn.Name = "allClearBtn";
-            this.allClearBtn.Size = new System.Drawing.Size(75, 23);
+            this.allClearBtn.Size = new System.Drawing.Size(101, 23);
             this.allClearBtn.TabIndex = 8;
             this.allClearBtn.Text = "All Clear";
             this.allClearBtn.UseVisualStyleBackColor = true;
@@ -161,17 +164,59 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.polygonBtn.Location = new System.Drawing.Point(664, 159);
             this.polygonBtn.Name = "polygonBtn";
-            this.polygonBtn.Size = new System.Drawing.Size(75, 23);
+            this.polygonBtn.Size = new System.Drawing.Size(101, 23);
             this.polygonBtn.TabIndex = 9;
             this.polygonBtn.Text = "Triangle";
             this.polygonBtn.UseVisualStyleBackColor = true;
             this.polygonBtn.Click += new System.EventHandler(this.polygonBtn_Click);
             // 
+            // zoomInBtn
+            // 
+            this.zoomInBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.zoomInBtn.Location = new System.Drawing.Point(664, 212);
+            this.zoomInBtn.Name = "zoomInBtn";
+            this.zoomInBtn.Size = new System.Drawing.Size(101, 23);
+            this.zoomInBtn.TabIndex = 10;
+            this.zoomInBtn.Text = "Zoom In";
+            this.zoomInBtn.UseVisualStyleBackColor = true;
+            this.zoomInBtn.Click += new System.EventHandler(this.zoomInBtn_Click);
+            // 
+            // zoomOutBtn
+            // 
+            this.zoomOutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.zoomOutBtn.Location = new System.Drawing.Point(664, 241);
+            this.zoomOutBtn.Name = "zoomOutBtn";
+            this.zoomOutBtn.Size = new System.Drawing.Size(101, 23);
+            this.zoomOutBtn.TabIndex = 11;
+            this.zoomOutBtn.Text = "Zoom Out";
+            this.zoomOutBtn.UseVisualStyleBackColor = true;
+            this.zoomOutBtn.Click += new System.EventHandler(this.zoomOutBtn_Click);
+            // 
+            // zoomWinBtn
+            // 
+            this.zoomWinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.zoomWinBtn.Location = new System.Drawing.Point(664, 270);
+            this.zoomWinBtn.Name = "zoomWinBtn";
+            this.zoomWinBtn.Size = new System.Drawing.Size(101, 23);
+            this.zoomWinBtn.TabIndex = 12;
+            this.zoomWinBtn.Text = "Zoom Win";
+            this.zoomWinBtn.UseVisualStyleBackColor = true;
+            this.zoomWinBtn.Click += new System.EventHandler(this.zoomWinBtn_Click);
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(746, 466);
+            this.ClientSize = new System.Drawing.Size(772, 466);
+            this.Controls.Add(this.zoomWinBtn);
+            this.Controls.Add(this.zoomOutBtn);
+            this.Controls.Add(this.zoomInBtn);
             this.Controls.Add(this.polygonBtn);
             this.Controls.Add(this.allClearBtn);
             this.Controls.Add(this.RectangleBtn);
@@ -205,6 +250,9 @@
         private System.Windows.Forms.Button RectangleBtn;
         private System.Windows.Forms.Button allClearBtn;
         private System.Windows.Forms.Button polygonBtn;
+        private System.Windows.Forms.Button zoomInBtn;
+        private System.Windows.Forms.Button zoomOutBtn;
+        private System.Windows.Forms.Button zoomWinBtn;
     }
 }
 
