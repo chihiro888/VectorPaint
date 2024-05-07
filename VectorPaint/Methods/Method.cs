@@ -9,34 +9,6 @@ namespace VectorPaint.Methods
 {
     public class Method
     {
-        private static bool IsPointOnLine(Line line1, Vector3 point)
-        {
-            return IsEqual(line1.Length, line1.StartPoint.DistanceFrom(point) + line1.EndPoint.DistanceFrom(point));
-        }
-
-        private static double Epsilon = 1e-12;
-
-        private static bool IsEqual(double d1, double d2)
-        {
-            return IsEqual(d1, d2, Epsilon);
-        }
-
-        private static bool IsEqual(double d1, double d2, double epsilon)
-        {
-            return IsZero(d1 - d2, epsilon);
-        }
-
-        private static bool IsZero(double d, double epsilon)
-        {
-            return d >= -epsilon && d <= epsilon;
-        }
-
-        public static bool IsZero(double d)
-        {
-            // return IsZero(d, Epsilon);
-            return true;
-        }
-
         // #005 - draw an ellipse
         public static double LineAngle(Vector3 start, Vector3 end)
         {
@@ -55,6 +27,33 @@ namespace VectorPaint.Methods
             Entities.Ellipse elp = new Entities.Ellipse(center, major, minor);
             elp.Rotation = angle;
             return elp;
+        }
+
+        // #006 - intersection of two lines
+        private static bool IsPointOnLine(Line line1, Vector3 point)
+        {
+            return IsEqual(line1.Length, line1.StartPoint.DistanceFrom(point) + line1.EndPoint.DistanceFrom(point));
+        }
+
+        // #006 - intersection of two lines
+        private static double Epsilon = 1e-12;
+
+        // #006 - intersection of two lines
+        private static bool IsEqual(double d1, double d2)
+        {
+            return IsEqual(d1, d2, Epsilon);
+        }
+
+        // #006 - intersection of two lines
+        private static bool IsEqual(double d1, double d2, double epsilon)
+        {
+            return IsZero(d1 - d2, epsilon);
+        }
+
+        // #006 - intersection of two lines
+        private static bool IsZero(double d, double epsilon)
+        {
+            return d >= -epsilon && d <= epsilon;
         }
 
         // #006 - intersection of two lines
@@ -114,6 +113,42 @@ namespace VectorPaint.Methods
             double radius = Math.Sqrt(dx * dx + dy * dy);
 
             return new Circle(center, radius);
+        }
+
+        // #008 - draw an arc
+        public static Arc GetArcWith3Points(Vector3 p1, Vector3 p2, Vector3 p3)
+        {
+            double start, end;
+            Arc result = new Arc();
+
+            Circle c = GetCircleWith3Point(p1, p2, p3);
+
+            if (c.Radius > 0)
+            {
+                if (DeterminePointOfLine(new Line(p1, p3), p2) < 0)
+                {
+                    start = LineAngle(c.Center, p3);
+                    end = LineAngle(c.Center, p1);
+                }
+                else
+                {
+                    start = LineAngle(c.Center, p1);
+                    end = LineAngle(c.Center, p3);
+                }
+                if (end > start)
+                    end -= start;
+                else
+                    end += 360.0 - start;
+
+                result = new Arc(c.Center, c.Radius, start, end);
+            }
+
+            return result;
+        }
+
+        private static double DeterminePointOfLine(Line line, Vector3 v)
+        {
+            return (v.X - line.StartPoint.X) * (line.EndPoint.Y - line.StartPoint.Y) - (v.Y - line.StartPoint.Y) * (line.EndPoint.X - line.StartPoint.X);
         }
 
         // #012 - draw a rectangle
@@ -256,6 +291,58 @@ namespace VectorPaint.Methods
             }
 
             return Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        // #035 - Index of entities
+        public static int GetSegmentIndex(List<EntityObject> entities, Vector3 mousePosition, PointF[] cursor_rect, out Vector3 PointOnSegment)
+        {
+            bool flags = false;
+            int index = -1;
+            Vector3 poSegment = new Vector3(0,0,0);
+
+            for(int i =0; i < entities.Count; i++)
+            {
+                switch(entities[i].Type)
+                {
+                    case EntityType.Arc:
+                        //
+                        break;
+                    case EntityType.Circle:
+                        //
+                        break;
+                    case EntityType.Ellipse:
+                        //
+                        break;
+                    case EntityType.Line:
+                        //
+                        break;
+                    case EntityType.LwPolyline:
+                        //
+                        break;
+                    case EntityType.Point:
+                        poSegment = (entities[i] as Entities.Point).Position;
+                        break;
+                }
+                if (!flags)
+                {
+                    if(IsPointInPolyline(cursor_rect, poSegment))
+                    {
+                        PointOnSegment = poSegment;
+                        flags = true;
+                        return i;
+                    }
+                }
+            }
+            PointOnSegment = Vector3.NaN;
+            return -1;
+        }
+
+        private static bool IsPointInPolyline(PointF[] cursor_rect, Vector3 point)
+        {
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();   
+            path.AddPolygon(cursor_rect);
+
+            return path.IsVisible(point.ToPointF);
         }
     }
 }

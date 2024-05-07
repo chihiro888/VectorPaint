@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
+    // #002- vector and draw a point
     public class Point: EntityObject
     {
         private Vector3 position;

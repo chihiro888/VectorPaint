@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
+    // #003 - draw a line
     public class Line: EntityObject
     {
         private Vector3 startPoint;

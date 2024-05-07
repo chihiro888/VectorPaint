@@ -41,6 +41,9 @@
             this.zoomInBtn = new System.Windows.Forms.Button();
             this.zoomOutBtn = new System.Windows.Forms.Button();
             this.zoomWinBtn = new System.Windows.Forms.Button();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.arcBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +55,7 @@
             this.drawing.BackColor = System.Drawing.SystemColors.Window;
             this.drawing.Location = new System.Drawing.Point(12, 12);
             this.drawing.Name = "drawing";
-            this.drawing.Size = new System.Drawing.Size(645, 337);
+            this.drawing.Size = new System.Drawing.Size(606, 337);
             this.drawing.TabIndex = 0;
             this.drawing.TabStop = false;
             this.drawing.Paint += new System.Windows.Forms.PaintEventHandler(this.drawing_Paint);
@@ -62,7 +65,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 356);
+            this.label1.Location = new System.Drawing.Point(12, 408);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 19);
             this.label1.TabIndex = 1;
@@ -86,7 +89,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 386);
+            this.label2.Location = new System.Drawing.Point(12, 438);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 19);
             this.label2.TabIndex = 3;
@@ -149,7 +152,7 @@
             this.allClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.allClearBtn.Location = new System.Drawing.Point(664, 326);
+            this.allClearBtn.Location = new System.Drawing.Point(664, 347);
             this.allClearBtn.Name = "allClearBtn";
             this.allClearBtn.Size = new System.Drawing.Size(101, 23);
             this.allClearBtn.TabIndex = 8;
@@ -175,7 +178,7 @@
             this.zoomInBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomInBtn.Location = new System.Drawing.Point(664, 212);
+            this.zoomInBtn.Location = new System.Drawing.Point(664, 233);
             this.zoomInBtn.Name = "zoomInBtn";
             this.zoomInBtn.Size = new System.Drawing.Size(101, 23);
             this.zoomInBtn.TabIndex = 10;
@@ -188,7 +191,7 @@
             this.zoomOutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomOutBtn.Location = new System.Drawing.Point(664, 241);
+            this.zoomOutBtn.Location = new System.Drawing.Point(664, 262);
             this.zoomOutBtn.Name = "zoomOutBtn";
             this.zoomOutBtn.Size = new System.Drawing.Size(101, 23);
             this.zoomOutBtn.TabIndex = 11;
@@ -201,7 +204,7 @@
             this.zoomWinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomWinBtn.Location = new System.Drawing.Point(664, 270);
+            this.zoomWinBtn.Location = new System.Drawing.Point(664, 291);
             this.zoomWinBtn.Name = "zoomWinBtn";
             this.zoomWinBtn.Size = new System.Drawing.Size(101, 23);
             this.zoomWinBtn.TabIndex = 12;
@@ -209,11 +212,43 @@
             this.zoomWinBtn.UseVisualStyleBackColor = true;
             this.zoomWinBtn.Click += new System.EventHandler(this.zoomWinBtn_Click);
             // 
+            // hScrollBar1
+            // 
+            this.hScrollBar1.Location = new System.Drawing.Point(12, 352);
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(606, 17);
+            this.hScrollBar1.TabIndex = 13;
+            this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(621, 14);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(20, 335);
+            this.vScrollBar1.TabIndex = 14;
+            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            // 
+            // arcBtn
+            // 
+            this.arcBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.arcBtn.Location = new System.Drawing.Point(664, 188);
+            this.arcBtn.Name = "arcBtn";
+            this.arcBtn.Size = new System.Drawing.Size(101, 23);
+            this.arcBtn.TabIndex = 15;
+            this.arcBtn.Text = "Arc";
+            this.arcBtn.UseVisualStyleBackColor = true;
+            this.arcBtn.Click += new System.EventHandler(this.arcBtn_Click);
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 466);
+            this.Controls.Add(this.arcBtn);
+            this.Controls.Add(this.vScrollBar1);
+            this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.zoomWinBtn);
             this.Controls.Add(this.zoomOutBtn);
             this.Controls.Add(this.zoomInBtn);
@@ -253,6 +288,9 @@
         private System.Windows.Forms.Button zoomInBtn;
         private System.Windows.Forms.Button zoomOutBtn;
         private System.Windows.Forms.Button zoomWinBtn;
+        private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.Button arcBtn;
     }
 }
 

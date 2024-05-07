@@ -8,24 +8,36 @@ using VectorPaint.Entities;
 
 namespace VectorPaint
 {
+    // #002- vector and draw a point
     public static class GraphicsExtension
     {
         private static float Height;
+        private static float XScroll;
+        private static float YScroll;
+        private static float ScaleFactor;
+
         private static Pen extpen = new Pen(Color.Gray, 0);
 
-        public static void SetParameters(this System.Drawing.Graphics g, float height)
+        // #002- vector and draw a point
+        public static void SetParameters(this System.Drawing.Graphics g, float xscroll, float yscroll, float scalefactor, float height)
         {
+            XScroll = xscroll;
+            YScroll = yscroll;
+            ScaleFactor = scalefactor;
             Height = height;
-            extpen.DashPattern = new float[] { 1.5f, 2.0f };
+            extpen.DashPattern = new float[] { 1.5f / scalefactor, 2.0f / scalefactor };
         }
 
+        // #002- vector and draw a point
         public static void SetTransform(this System.Drawing.Graphics g)
         {
             g.PageUnit = System.Drawing.GraphicsUnit.Millimeter;
             g.TranslateTransform(0, Height);
-            g.ScaleTransform(1.0f, -1.0f);
+            g.ScaleTransform(ScaleFactor, -ScaleFactor);
+            g.TranslateTransform(-XScroll / ScaleFactor, YScroll / ScaleFactor);
         }
 
+        // #002- vector and draw a point
         public static void DrawPoint(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Point point)
         {
             g.SetTransform();
@@ -37,6 +49,7 @@ namespace VectorPaint
             g.ResetTransform();
         }
 
+        // #003 - draw a line
         public static void DrawLine(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Line line)
         {
             g.SetTransform();
@@ -46,6 +59,21 @@ namespace VectorPaint
                 g.DrawLine(extpen, line.StartPoint.ToPointF, line.EndPoint.ToPointF);
             g.ResetTransform();
         }
+
+        // #008 - draw an arc
+        public static void DrawArc(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Arc arc)
+        {
+            float x = (float)(arc.Center.X - arc.Radius);
+            float y = (float)(arc.Center.Y - arc.Radius);
+            float d = (float)arc.Diameter;
+
+            System.Drawing.RectangleF rect = new System.Drawing.RectangleF(x, y, d, d);
+
+            g.SetTransform();
+            g.DrawArc(pen, rect, (float)arc.StartAngle, (float)arc.EndAngle);
+            g.ResetTransform();
+        }
+
 
         public static void DrawCircle(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Circle circle)
         {
