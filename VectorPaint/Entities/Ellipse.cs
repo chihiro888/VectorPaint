@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
-    public class Ellipse
+    public class Ellipse: EntityObject  
     {
         private Vector3 center;
         private double majorAxis;
@@ -16,7 +16,7 @@ namespace VectorPaint.Entities
         private double endAngle;
         private double thickness;
 
-        public Ellipse(Vector3 center, double majoraxis, double minoraxis)
+        public Ellipse(Vector3 center, double majoraxis, double minoraxis) : base(EntityType.Ellipse)
         {
             this.Center = center;
             this.MajorAxis = majoraxis;
@@ -24,6 +24,10 @@ namespace VectorPaint.Entities
             this.Rotation = 0.0;
             this.startAngle = 0.0;
             this.Thickness = 0.0;
+        }
+
+        public Ellipse(): this(Vector3.Zero, 1.0, 0.5)
+        {
         }
 
         public Vector3 Center
@@ -66,6 +70,23 @@ namespace VectorPaint.Entities
         {
             get { return this.thickness; }
             set { this.thickness = value; }
+        }
+
+        public override object Clone()
+        {
+            return new Ellipse
+            {
+                center = this.center,
+                MajorAxis = this.majorAxis,
+                MinorAxis = this.minorAxis,
+                Rotation = this.rotation,
+                StartAngle = this.startAngle,
+                EndAngle = this.endAngle,
+                Thickness = this.thickness,
+
+                // EntityObject properties
+                IsVisible = this.IsVisible,
+            };
         }
     }
 }

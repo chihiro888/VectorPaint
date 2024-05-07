@@ -18,3 +18,13 @@ C:\Users\chihiro888\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.cspr
 C:\Users\chihiro888\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.csproj.CoreCompileInputs.cache
 C:\Users\chihiro888\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.exe
 C:\Users\chihiro888\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.pdb
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\bin\Debug\VectorPaint.exe.config
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\bin\Debug\VectorPaint.exe
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\bin\Debug\VectorPaint.pdb
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.csproj.AssemblyReference.cache
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.Properties.Resources.resources
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.VectorPaintForm.resources
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.csproj.GenerateResource.cache
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.csproj.CoreCompileInputs.cache
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.exe
+C:\Users\forAll\Desktop\workspace\VectorPaint\VectorPaint\obj\Debug\VectorPaint.pdb

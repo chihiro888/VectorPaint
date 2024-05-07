@@ -16,6 +16,7 @@ namespace VectorPaint
         public static void SetParameters(this System.Drawing.Graphics g, float height)
         {
             Height = height;
+            extpen.DashPattern = new float[] { 1.5f, 2.0f };
         }
 
         public static void SetTransform(this System.Drawing.Graphics g)
@@ -29,14 +30,20 @@ namespace VectorPaint
         {
             g.SetTransform();
             System.Drawing.PointF p = point.Position.ToPointF;
-            g.DrawEllipse(pen, p.X - 1, p.Y - 1, 2, 2);
+            if (!point.IsSelected)
+                g.DrawEllipse(pen, p.X - 1, p.Y - 1, 2, 2);
+            else
+                g.DrawEllipse(extpen, p.X - 1, p.Y - 1, 2, 2);
             g.ResetTransform();
         }
 
         public static void DrawLine(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Line line)
         {
             g.SetTransform();
-            g.DrawLine(pen, line.StartPoint.ToPointF, line.EndPoint.ToPointF);
+            if (!line.IsSelected)
+                g.DrawLine(pen, line.StartPoint.ToPointF, line.EndPoint.ToPointF);
+            else
+                g.DrawLine(extpen, line.StartPoint.ToPointF, line.EndPoint.ToPointF);
             g.ResetTransform();
         }
 
@@ -46,7 +53,10 @@ namespace VectorPaint
             float y = (float)(circle.Center.Y - circle.Radius);
             float d = (float)circle.Diameter;
             g.SetTransform();
-            g.DrawEllipse(pen, x, y, d, d);
+            if (!circle.IsSelected)
+                g.DrawEllipse(pen, x, y, d, d);
+            else
+                g.DrawEllipse(extpen, x, y, d, d);
             g.ResetTransform();
         }
 
@@ -56,7 +66,10 @@ namespace VectorPaint
             SetTransform(g);
             g.TranslateTransform(ellipse.Center.ToPointF.X, ellipse.Center.ToPointF.Y);
             g.RotateTransform((float)ellipse.Rotation);
-            g.DrawEllipse(pen, -(float)ellipse.MajorAxis, -(float)ellipse.MinorAxis, (float)ellipse.MajorAxis * 2, (float)ellipse.MinorAxis * 2);
+            if (!ellipse.IsSelected)
+                g.DrawEllipse(pen, -(float)ellipse.MajorAxis, -(float)ellipse.MinorAxis, (float)ellipse.MajorAxis * 2, (float)ellipse.MinorAxis * 2);
+            else
+                g.DrawEllipse(extpen, -(float)ellipse.MajorAxis, -(float)ellipse.MinorAxis, (float)ellipse.MajorAxis * 2, (float)ellipse.MinorAxis * 2);
             g.ResetTransform();
         }
 
@@ -76,6 +89,29 @@ namespace VectorPaint
             g.SetTransform();
             g.DrawLines(pen, vertexes);
             g.ResetTransform();
+        }
+
+        public static void DrawEntity(this Graphics g, Pen pen, EntityObject entity)
+        {
+            switch (entity.Type)
+            {
+                case EntityType.Ellipse:
+                    g.DrawEllipse(pen, entity as Ellipse);
+                    break;
+                case EntityType.Circle:
+                    g.DrawCircle(pen, entity as Circle);
+                    break;
+                case EntityType.Line:
+                    g.DrawLine(pen, entity as Line);
+                    break;
+                case EntityType.LwPolyline:
+                    g.DrawLwPolyline(pen, entity as LwPolyline);
+                    break;
+                case EntityType.Point:
+                    g.DrawPoint(pen, entity as Entities.Point);
+                    break;
+
+            }
         }
     }
 }

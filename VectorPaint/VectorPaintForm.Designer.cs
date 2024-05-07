@@ -60,7 +60,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 356);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 39);
+            this.label1.Size = new System.Drawing.Size(49, 19);
             this.label1.TabIndex = 1;
             this.label1.Text = "label1";
             // 
@@ -84,7 +84,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 386);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 39);
+            this.label2.Size = new System.Drawing.Size(49, 19);
             this.label2.TabIndex = 3;
             this.label2.Text = "label2";
             // 
@@ -145,7 +145,7 @@
             this.allClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.allClearBtn.Location = new System.Drawing.Point(663, 182);
+            this.allClearBtn.Location = new System.Drawing.Point(664, 326);
             this.allClearBtn.Name = "allClearBtn";
             this.allClearBtn.Size = new System.Drawing.Size(75, 23);
             this.allClearBtn.TabIndex = 8;
@@ -155,7 +155,7 @@
             // 
             // VectorPaintForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 39F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 466);
             this.Controls.Add(this.allClearBtn);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
-    public class LwPolylineVertex
+    public class LwPolylineVertex: EntityObject
     {
         private Vector2 position;
         private double bulge;
@@ -19,7 +19,7 @@ namespace VectorPaint.Entities
         {
         }
 
-        public LwPolylineVertex(Vector2 position, double bulge)
+        public LwPolylineVertex(Vector2 position, double bulge): base(EntityType.LwPolylineVertext)
         {
             this.position = position;
             this.bulge = bulge;
@@ -39,6 +39,15 @@ namespace VectorPaint.Entities
         {
             get { return bulge; }
             set { bulge = value; }  
+        }
+
+        public override object Clone()
+        {
+            return new LwPolylineVertex
+            {
+                Position = this.position,
+                Bulge = this.bulge,
+            };
         }
     }
 }

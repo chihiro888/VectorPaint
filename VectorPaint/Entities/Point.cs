@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
-    public class Point
+    public class Point: EntityObject
     {
-        private Vector3 vector3;
+        private Vector3 position;
         private double thickness;
 
-        public Point()
+        public Point():this(Vector3.Zero)
         {
-            this.Position = Vector3.Zero;
-            this.Tickness = 0.0;
         }
 
-        public Point(Vector3 position)
+        public Point(Vector3 position) : base(EntityType.Point)
         {
             this.Position = position;
             this.Tickness = 0.0;
@@ -31,8 +29,20 @@ namespace VectorPaint.Entities
 
         public Vector3 Position
         {
-            get { return vector3; }
-            set { vector3 = value; }
+            get { return position; }
+            set { position = value; }
+        }
+
+        public override object Clone()
+        {
+            return new Entities.Point
+            {
+                Position = this.position,
+                thickness = this.thickness,
+
+                // EntityObject properties
+                IsVisible = this.IsVisible
+            };
         }
     }
 }

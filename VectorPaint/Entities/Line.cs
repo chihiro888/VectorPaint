@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
-    public class Line
+    public class Line: EntityObject
     {
         private Vector3 startPoint;
         private Vector3 endPoint;
@@ -16,7 +16,7 @@ namespace VectorPaint.Entities
         {
         }
 
-        public Line(Vector3 start, Vector3 end)
+        public Line(Vector3 start, Vector3 end): base(EntityType.Line)
         {
             this.startPoint = start;
             this.endPoint = end;
@@ -40,6 +40,31 @@ namespace VectorPaint.Entities
         {
             get { return startPoint; }
             set { startPoint = value; }
+        }
+
+        public double Length
+        {
+            get
+            {
+                double dx = endPoint.X - startPoint.X;
+                double dy = endPoint.Y - startPoint.Y;
+                double dz = endPoint.Z - startPoint.Z;
+
+                return Math.Sqrt(dx * dx + dy * dy + dz * dz);
+            }
+        }
+
+        public override object Clone()
+        {
+            return new Line
+            {
+                StartPoint = this.startPoint,
+                EndPoint = this.endPoint,
+                Thickness = this.thickness,
+
+                // EntityObject properties
+                IsVisible = this.IsVisible,
+            };
         }
     }
 }

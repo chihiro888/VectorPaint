@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
-    public class Circle
+    public class Circle : EntityObject
     {
-        private Vector3 vector3;
+        private Vector3 center;
         private double radius;
         private double thickness;
 
@@ -16,7 +16,7 @@ namespace VectorPaint.Entities
         {
         }
 
-        public Circle(Vector3 center, double radius)
+        public Circle(Vector3 center, double radius) : base(EntityType.Circle)
         {
             this.Center = center;
             this.Radius = radius;
@@ -25,8 +25,8 @@ namespace VectorPaint.Entities
 
         public Vector3 Center
         {
-            get { return this.vector3; }
-            set { this.vector3 = value; }
+            get { return this.center; }
+            set { this.center = value; }
         }
 
         public double Radius
@@ -47,6 +47,19 @@ namespace VectorPaint.Entities
             {
                 return this.Radius * 2.0;
             }
+        }
+
+        public override object Clone()
+        {
+            return new Circle
+            {
+                Center = this.center,
+                Radius = this.radius,
+                Thickness = this.thickness,
+
+                // EntityObject properties
+                IsVisible = this.IsVisible,
+            };
         }
     }
 }

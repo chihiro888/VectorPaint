@@ -19,11 +19,8 @@ namespace VectorPaint
         }
 
         // 엔티티 큐
-        private List<Entities.Point> points = new List<Entities.Point>();
-        private List<Entities.Line> lines = new List<Entities.Line>();
-        private List<Entities.Circle> circles = new List<Entities.Circle>();
-        private List<Entities.Ellipse> ellipses = new List<Entities.Ellipse>();
-        private List<LwPolyline> polylines = new List<LwPolyline>();
+        private List<EntityObject> entity = new List<EntityObject>();
+
         private LwPolyline tempPolyline = new LwPolyline();
 
         // 좌표정보
@@ -31,7 +28,7 @@ namespace VectorPaint
         private Vector3 firstPoint;
         private Vector3 secondPoint;
 
-        // 0:점, 1:선
+        // 0:점, 1:선, 2:원, 3:타원, 4:사각형
         private int DrawIndex = -1;
         private bool active_drawing = false;
         private int ClickNum = 1;
@@ -80,7 +77,7 @@ namespace VectorPaint
                         // point
                         case 0:
                             // 포인트 큐에 좌표 엔티티 추가
-                            points.Add(new Entities.Point(currentPosition));
+                            entity.Add(new Entities.Point(currentPosition));
                             break;
                         // line
                         case 1:
@@ -88,12 +85,12 @@ namespace VectorPaint
                             {
                                 case 1:
                                     firstPoint = currentPosition;
-                                    points.Add(new Entities.Point(currentPosition));
+                                    entity.Add(new Entities.Point(currentPosition));
                                     ClickNum++;
                                     break;
                                 case 2:
-                                    lines.Add(new Entities.Line(firstPoint, currentPosition));
-                                    points.Add(new Entities.Point(currentPosition));
+                                    entity.Add(new Entities.Line(firstPoint, currentPosition));
+                                    entity.Add(new Entities.Point(currentPosition));
                                     firstPoint = currentPosition;
                                     ClickNum = 1;
                                     break;
@@ -109,7 +106,7 @@ namespace VectorPaint
                                     break;
                                 case 2:
                                     double r = firstPoint.DistanceFrom(currentPosition);
-                                    circles.Add(new Entities.Circle(firstPoint, r));
+                                    entity.Add(new Entities.Circle(firstPoint, r));
                                     ClickNum = 1;
                                     break;
                             }
@@ -128,7 +125,7 @@ namespace VectorPaint
                                     break;
                                 case 3:
                                     Entities.Ellipse ellipse = Methods.Method.GetEllipse(firstPoint, secondPoint, currentPosition);
-                                    ellipses.Add(ellipse);
+                                    entity.Add(ellipse);
                                     ClickNum = 1;
                                     break;
                             }
@@ -142,12 +139,13 @@ namespace VectorPaint
                                     ClickNum++;
                                     break;
                                 case 2:
-                                    polylines.Add(Methods.Method.PointToRect(firstPoint, currentPosition, out direction));
+                                    entity.Add(Methods.Method.PointToRect(firstPoint, currentPosition, out direction));
                                     ClickNum = 1;
                                     break;
                             }
                             break;
                     }
+
                     drawing.Refresh();
                 }
             }
@@ -161,63 +159,23 @@ namespace VectorPaint
             // 펜 객체 생성
             Pen pen = new Pen(Color.Blue, 0.1f);
             Pen extpen = new Pen(Color.Gray, 0.1f);
+            extpen.DashPattern = new float[] { 1.0f, 2.0f };
 
-            // 점 그리기
-            if (points.Count > 0)
+            // 엔티티 그리기
+            if (entity.Count > 0)
             {
                 // 포인트 큐의 좌표 엔티티 추출 반복
-                foreach (Entities.Point p in points)
+                foreach (EntityObject entities in entity)
                 {
-                    // 점 그리기
-                    e.Graphics.DrawPoint(new Pen(Color.Red, 0), p);
-                }
-            }
-
-            // 라인 그리기
-            if (lines.Count > 0)
-            {
-                // 포인트 큐의 좌표 엔티티 추출 반복
-                foreach (Entities.Line l in lines)
-                {
-                    // 라인 그리기
-                    e.Graphics.DrawLine(pen, l);
-                }
-            }
-
-            // 원 그리기
-            if (circles.Count > 0)
-            {
-                // 포인트 큐의 좌표 엔티티 추출 반복
-                foreach (Entities.Circle c in circles)
-                {
-                    // 원 그리기
-                    e.Graphics.DrawCircle(pen, c);
-                }
-            }
-
-            // 타원 그리기
-            if (ellipses.Count > 0)
-            {
-                // 포인트 큐의 좌표 엔티티 추출 반복
-                foreach (Entities.Ellipse elp in ellipses)
-                {
-                    // 타원 그리기
-                    e.Graphics.DrawEllipse(pen, elp);
-                }
-            }
-
-            // 사각형 그리기
-            if (polylines.Count > 0)
-            {
-                foreach (LwPolyline lw in polylines)
-                {
-                    e.Graphics.DrawLwPolyline(pen, lw);
+                    // 엔티티 그리기
+                    e.Graphics.DrawEntity(pen, entities);
                 }
             }
 
             // 라인 그리기 (확장)
             switch (DrawIndex)
             {
+                // 선
                 case 1:
                     if (ClickNum == 2)
                     {
@@ -225,6 +183,7 @@ namespace VectorPaint
                         e.Graphics.DrawLine(extpen, line);
                     }
                     break;
+                // 원
                 case 2:
                     if (ClickNum == 2)
                     {
@@ -235,6 +194,7 @@ namespace VectorPaint
                         e.Graphics.DrawCircle(extpen, circle);
                     }
                     break;
+                // 타원
                 case 3:
                     switch (ClickNum)
                     {
@@ -250,6 +210,7 @@ namespace VectorPaint
                             break;
                     }
                     break;
+                // 사각형
                 case 4:
                     if (ClickNum == 2)
                     {
@@ -271,12 +232,12 @@ namespace VectorPaint
                 {
                     case 1:
                         if (vertexes.Count > 2)
-                            polylines.Add(new LwPolyline(vertexes, true));
+                            entity.Add(new LwPolyline(vertexes, true));
                         else
-                            polylines.Add(new LwPolyline(vertexes, false));
+                            entity.Add(new LwPolyline(vertexes, false));
                         break;
                     case 2:
-                        polylines.Add(new LwPolyline(vertexes, false));
+                        entity.Add(new LwPolyline(vertexes, false));
                         break;
                 }
             }
@@ -332,11 +293,7 @@ namespace VectorPaint
         private void allClearBtn_Click(object sender, EventArgs e)
         {
             // Clear all lists containing shapes
-            points.Clear();
-            lines.Clear();
-            circles.Clear();
-            ellipses.Clear();
-            polylines.Clear();
+            entity.Clear();
 
             // Refresh the drawing area to reflect the changes
             drawing.Refresh();
