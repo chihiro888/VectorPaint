@@ -245,6 +245,7 @@ namespace VectorPaint
         // 마우스로 그림 그릴 시 이벤트
         private void drawing_Paint(object sender, PaintEventArgs e)
         {
+            // #010 - scroll bar
             // 화면 높이를 밀리미터 단위로 변환하여 설정
             e.Graphics.SetParameters(XScroll, YScroll, ScaleFactor, Pixel_to_Mn(drawing.Height));
 
@@ -574,6 +575,7 @@ namespace VectorPaint
             //
         }
 
+        // #010 - scroll bar
         // 수평 스크롤 이벤트
         private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
@@ -581,6 +583,7 @@ namespace VectorPaint
             drawing.Refresh();
         }
 
+        // #010 - scroll bar
         // 수직 스크롤 이벤트
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {

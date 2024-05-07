@@ -12,6 +12,8 @@ namespace VectorPaint
     public static class GraphicsExtension
     {
         private static float Height;
+
+        // #010 - scroll bar
         private static float XScroll;
         private static float YScroll;
         private static float ScaleFactor;
@@ -21,10 +23,14 @@ namespace VectorPaint
         // #002- vector and draw a point
         public static void SetParameters(this System.Drawing.Graphics g, float xscroll, float yscroll, float scalefactor, float height)
         {
+            // #010 - scroll bar
             XScroll = xscroll;
             YScroll = yscroll;
             ScaleFactor = scalefactor;
+
             Height = height;
+
+            // #010 - scroll bar
             extpen.DashPattern = new float[] { 1.5f / scalefactor, 2.0f / scalefactor };
         }
 
@@ -33,6 +39,8 @@ namespace VectorPaint
         {
             g.PageUnit = System.Drawing.GraphicsUnit.Millimeter;
             g.TranslateTransform(0, Height);
+
+            // #010 - scroll bar
             g.ScaleTransform(ScaleFactor, -ScaleFactor);
             g.TranslateTransform(-XScroll / ScaleFactor, YScroll / ScaleFactor);
         }
