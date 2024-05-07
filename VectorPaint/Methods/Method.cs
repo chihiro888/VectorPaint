@@ -37,6 +37,7 @@ namespace VectorPaint.Methods
             return true;
         }
 
+        // #005 - draw an ellipse
         public static double LineAngle(Vector3 start, Vector3 end)
         {
             double angle = Math.Atan2((end.Y - start.Y), (end.X - start.X)) * 180.0 / Math.PI;
@@ -45,6 +46,7 @@ namespace VectorPaint.Methods
             return angle;
         }
 
+        // #005 - draw an ellipse
         public static Entities.Ellipse GetEllipse(Vector3 center, Vector3 firstPoint, Vector3 secondPoint)
         {
             double major = center.DistanceFrom(firstPoint);
@@ -54,29 +56,6 @@ namespace VectorPaint.Methods
             elp.Rotation = angle;
             return elp;
         }
-
-        public static LwPolyline PointToRect(Vector3 firstCorner, Vector3 secondCorner, out int direction)
-        {
-            double x = Math.Min(firstCorner.X, secondCorner.X);
-            double y = Math.Min(firstCorner.Y, secondCorner.Y);
-            double width = Math.Abs(secondCorner.X - firstCorner.X);
-            double height = Math.Abs(secondCorner.Y - firstCorner.Y);
-
-            double dx = secondCorner.X - firstCorner.X;
-
-            List<LwPolylineVertex> vertexes = new List<LwPolylineVertex>();
-            vertexes.Add(new LwPolylineVertex(x, y));
-            vertexes.Add(new LwPolylineVertex(x + width, y));
-            vertexes.Add(new LwPolylineVertex(x + width, y + height));
-            vertexes.Add(new LwPolylineVertex(x, y + height));
-
-            if (dx > 0) direction = 1;
-            else if (dx < 0) direction = 2;
-            else direction = -1;
-
-            return new LwPolyline(vertexes, true);
-        }
-
 
         // #006 - intersection of two lines
         public static Vector3 LineLineIntersection(Entities.Line line1, Entities.Line line2, bool extended = false)
@@ -135,6 +114,55 @@ namespace VectorPaint.Methods
             double radius = Math.Sqrt(dx * dx + dy * dy);
 
             return new Circle(center, radius);
+        }
+
+        // #012 - draw a rectangle
+        public static LwPolyline PointToRect(Vector3 firstCorner, Vector3 secondCorner, out int direction)
+        {
+            double x = Math.Min(firstCorner.X, secondCorner.X);
+            double y = Math.Min(firstCorner.Y, secondCorner.Y);
+            double width = Math.Abs(secondCorner.X - firstCorner.X);
+            double height = Math.Abs(secondCorner.Y - firstCorner.Y);
+
+            double dx = secondCorner.X - firstCorner.X;
+
+            List<LwPolylineVertex> vertexes = new List<LwPolylineVertex>();
+            vertexes.Add(new LwPolylineVertex(x, y));
+            vertexes.Add(new LwPolylineVertex(x + width, y));
+            vertexes.Add(new LwPolylineVertex(x + width, y + height));
+            vertexes.Add(new LwPolylineVertex(x, y + height));
+
+            if (dx > 0) direction = 1;
+            else if (dx < 0) direction = 2;
+            else direction = -1;
+
+            return new LwPolyline(vertexes, true);
+        }
+
+        // #013 - draw a polygon
+        public static LwPolyline GetPolygon(Vector3 center, Vector3 secondPoint, int sidesQty, int inscribed)
+        {
+            List<LwPolylineVertex> vertexs = new List<LwPolylineVertex>();
+            double sides_angle = 360.0 / sidesQty;
+            double radius = center.DistanceFrom(secondPoint);
+            double lineangle = LineAngle(center, secondPoint);
+
+            if (inscribed == 1)
+            {
+                lineangle -= sides_angle / 2.0;
+                radius /= Math.Cos(sides_angle / 180.0 * Math.PI / 2.0);
+            }
+
+            for (int i=0; i<sidesQty; i++)
+            {
+                double x = center.X + radius * Math.Cos(lineangle / 180.0 * Math.PI);
+                double y = center.Y + radius * Math.Sin(lineangle / 180.0 * Math.PI);
+
+                vertexs.Add(new LwPolylineVertex(x, y));
+                lineangle += sides_angle;
+            }
+
+            return new LwPolyline(vertexs, true);
         }
     }
 }

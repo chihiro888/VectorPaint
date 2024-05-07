@@ -3,14 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|c:\\users\\forall\\desktop\\workspace\\vectorpaint\\vectorpaint\\graphicsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\graphicsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\vectorpaint\\methods\\method.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\methods\\method.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\vectorpaint\\vectorpaintform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\vectorpaintform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,15 +11,23 @@
       "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\vectorpaintform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\vectorpaint\\methods\\method.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\methods\\method.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|c:\\users\\forall\\desktop\\workspace\\vectorpaint\\vectorpaint\\graphicsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\graphicsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\vectorpaint\\vectorpaintform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\vectorpaintform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|c:\\users\\forall\\desktop\\workspace\\vectorpaint\\vectorpaint\\entities\\entitytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\vectorpaint\\entities\\entitytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\entities\\entitytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|c:\\users\\forall\\desktop\\workspace\\vectorpaint\\vectorpaint\\entities\\entityobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\vectorpaint\\entities\\entityobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27BB9AA9-2911-4F0D-AEC7-0B0E19D2A613}|VectorPaint\\VectorPaint.csproj|solutionrelative:vectorpaint\\entities\\entityobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -78,7 +78,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
@@ -90,8 +90,7 @@
               "RelativeToolTip": "VectorPaint\\Entities\\LwPolylineVertex.cs",
               "ViewState": "AQIAABIAAAAAAAAAAAAIwCoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-04T11:08:20.467Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-04T11:08:20.467Z"
             },
             {
               "$type": "Document",
@@ -103,18 +102,17 @@
               "RelativeToolTip": "VectorPaint\\Entities\\Point.cs",
               "ViewState": "AQIAABIAAAAAAAAAAAAIwCUAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T02:11:56.973Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-03T02:11:56.973Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Method.cs",
               "DocumentMoniker": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\VectorPaint\\Methods\\Method.cs",
               "RelativeDocumentMoniker": "VectorPaint\\Methods\\Method.cs",
               "ToolTip": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\VectorPaint\\Methods\\Method.cs",
               "RelativeToolTip": "VectorPaint\\Methods\\Method.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAQwDkAAAAsAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-03T05:25:45.905Z",
               "EditorCaption": ""
@@ -129,31 +127,30 @@
               "RelativeToolTip": "VectorPaint\\Entities\\PolylineTypeFlags.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-04T11:15:15.237Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-04T11:15:15.237Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "GraphicsExtension.cs",
               "DocumentMoniker": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\VectorPaint\\GraphicsExtension.cs",
               "RelativeDocumentMoniker": "VectorPaint\\GraphicsExtension.cs",
               "ToolTip": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\VectorPaint\\GraphicsExtension.cs",
               "RelativeToolTip": "VectorPaint\\GraphicsExtension.cs",
-              "ViewState": "AQIAAEEAAAAAAAAAAAAcwFEAAABDAAAA",
+              "ViewState": "AQIAAEEAAAAAAAAAAAAcwFgAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-03T02:20:40.27Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "VectorPaintForm.cs",
               "DocumentMoniker": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\VectorPaint\\VectorPaintForm.cs",
               "RelativeDocumentMoniker": "VectorPaint\\VectorPaintForm.cs",
               "ToolTip": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\VectorPaint\\VectorPaintForm.cs",
               "RelativeToolTip": "VectorPaint\\VectorPaintForm.cs",
-              "ViewState": "AQIAAHoAAAAAAAAAAAAuwI0AAABJAAAA",
+              "ViewState": "AQIAAIIAAAAAAAAAAAAtwJQAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-03T01:57:48.41Z",
               "EditorCaption": ""
@@ -168,12 +165,11 @@
               "RelativeToolTip": "VectorPaint\\Entities\\EntityType.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwAgAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-07T00:11:31.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-07T00:11:31.969Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "VectorPaintForm.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Users\\forAll\\Desktop\\workspace\\VectorPaint\\VectorPaint\\VectorPaintForm.cs",
               "RelativeDocumentMoniker": "VectorPaint\\VectorPaintForm.cs",
@@ -206,8 +202,7 @@
               "RelativeToolTip": "VectorPaint\\Entities\\LwPolyline.cs",
               "ViewState": "AQIAAFIAAAAAAAAAAAAewHAAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-04T11:07:51.947Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-04T11:07:51.947Z"
             },
             {
               "$type": "Document",
@@ -219,8 +214,7 @@
               "RelativeToolTip": "VectorPaint\\Entities\\Line.cs",
               "ViewState": "AQIAABgAAAAAAAAAAAAIwDUAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T04:33:35.625Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-03T04:33:35.625Z"
             },
             {
               "$type": "Document",
@@ -232,8 +226,7 @@
               "RelativeToolTip": "VectorPaint\\Entities\\Ellipse.cs",
               "ViewState": "AQIAAEIAAAAAAAAAAAAiwFcAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T05:13:58.036Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-03T05:13:58.036Z"
             },
             {
               "$type": "Document",
@@ -245,8 +238,7 @@
               "RelativeToolTip": "VectorPaint\\Entities\\Circle.cs",
               "ViewState": "AQIAACwAAAAAAAAAAAAcwDwAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T05:00:49.916Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-03T05:00:49.916Z"
             },
             {
               "$type": "Document",
@@ -258,8 +250,7 @@
               "RelativeToolTip": "VectorPaint\\Entities\\EntityObject.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwA4AAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-07T00:10:05.061Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-07T00:10:05.061Z"
             },
             {
               "$type": "Document",
@@ -271,8 +262,7 @@
               "RelativeToolTip": "VectorPaint\\Vector3.cs",
               "ViewState": "AQIAABkAAACAZmZmZmYbwDsAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T02:05:45.748Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-03T02:05:45.748Z"
             },
             {
               "$type": "Document",
@@ -284,8 +274,7 @@
               "RelativeToolTip": "VectorPaint\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T02:26:57.006Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-03T02:26:57.006Z"
             },
             {
               "$type": "Document",

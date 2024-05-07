@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VectorPaint.Entities;
+using VectorPaint.Methods;
 
 namespace VectorPaint
 {
@@ -28,11 +29,13 @@ namespace VectorPaint
         private Vector3 firstPoint;
         private Vector3 secondPoint;
 
-        // 0:점, 1:선, 2:원, 3:타원, 4:사각형
+        // 0:점, 1:선, 2:원, 3:타원, 4:사각형, 5: 삼각형
         private int DrawIndex = -1;
         private bool active_drawing = false;
         private int ClickNum = 1;
         private int direction;
+        private int sideQty = 3;
+        private int inscribed = 1;
 
         // drawing 위에서 마우스가 움직일 때 이벤트
         private void drawing_MouseMove(object sender, MouseEventArgs e)
@@ -74,12 +77,12 @@ namespace VectorPaint
                 {
                     switch (DrawIndex)
                     {
-                        // point
+                        // point (점)
                         case 0:
                             // 포인트 큐에 좌표 엔티티 추가
                             entity.Add(new Entities.Point(currentPosition));
                             break;
-                        // line
+                        // line (선)
                         case 1:
                             switch (ClickNum)
                             {
@@ -96,7 +99,7 @@ namespace VectorPaint
                                     break;
                             }
                             break;
-                        // circle
+                        // circle (원)
                         case 2:
                             switch (ClickNum)
                             {
@@ -111,7 +114,7 @@ namespace VectorPaint
                                     break;
                             }
                             break;
-                        // Ellipse
+                        // Ellipse (타원)
                         case 3:
                             switch (ClickNum)
                             {
@@ -130,7 +133,7 @@ namespace VectorPaint
                                     break;
                             }
                             break;
-                        // Rectangle
+                        // Rectangle (사각형)
                         case 4:
                             switch (ClickNum)
                             {
@@ -144,6 +147,21 @@ namespace VectorPaint
                                     break;
                             }
                             break;
+                        // Polygon (삼각형)
+                        case 5:
+                            switch (ClickNum)
+                            {
+                                case 1:
+                                    firstPoint = currentPosition;
+                                    ClickNum++;
+                                    break;
+                                case 2:
+                                    entity.Add(Methods.Method.GetPolygon(firstPoint, currentPosition, sideQty, inscribed));
+                                    ClickNum = 1;
+                                    break;
+                            }
+                            break;
+
                     }
 
                     drawing.Refresh();
@@ -218,6 +236,16 @@ namespace VectorPaint
                         e.Graphics.DrawLwPolyline(extpen, lw);
                     }
                     break;
+                // 폴리곤
+                case 5:
+                    if (ClickNum == 2)
+                    {
+                        Entities.Line line = new Entities.Line(firstPoint, currentPosition);
+                        e.Graphics.DrawLine(extpen, line);
+                        LwPolyline lw = Method.GetPolygon(firstPoint, currentPosition, sideQty, inscribed);
+                        e.Graphics.DrawLwPolyline(extpen, lw);
+                    }
+                    break;
             }
         }
 
@@ -286,6 +314,13 @@ namespace VectorPaint
         private void RectangleBtn_Click(object sender, EventArgs e)
         {
             DrawIndex = 4;
+            active_drawing = true;
+            drawing.Cursor = Cursors.Cross;
+        }
+
+        private void polygonBtn_Click(object sender, EventArgs e)
+        {
+            DrawIndex = 5;
             active_drawing = true;
             drawing.Cursor = Cursors.Cross;
         }

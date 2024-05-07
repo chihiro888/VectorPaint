@@ -37,6 +37,7 @@
             this.ellipseBtn = new System.Windows.Forms.Button();
             this.RectangleBtn = new System.Windows.Forms.Button();
             this.allClearBtn = new System.Windows.Forms.Button();
+            this.polygonBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -153,11 +154,25 @@
             this.allClearBtn.UseVisualStyleBackColor = true;
             this.allClearBtn.Click += new System.EventHandler(this.allClearBtn_Click);
             // 
+            // polygonBtn
+            // 
+            this.polygonBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.polygonBtn.Location = new System.Drawing.Point(664, 159);
+            this.polygonBtn.Name = "polygonBtn";
+            this.polygonBtn.Size = new System.Drawing.Size(75, 23);
+            this.polygonBtn.TabIndex = 9;
+            this.polygonBtn.Text = "Triangle";
+            this.polygonBtn.UseVisualStyleBackColor = true;
+            this.polygonBtn.Click += new System.EventHandler(this.polygonBtn_Click);
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 466);
+            this.Controls.Add(this.polygonBtn);
             this.Controls.Add(this.allClearBtn);
             this.Controls.Add(this.RectangleBtn);
             this.Controls.Add(this.ellipseBtn);
@@ -189,6 +204,7 @@
         private System.Windows.Forms.Button ellipseBtn;
         private System.Windows.Forms.Button RectangleBtn;
         private System.Windows.Forms.Button allClearBtn;
+        private System.Windows.Forms.Button polygonBtn;
     }
 }
 
