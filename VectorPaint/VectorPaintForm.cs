@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace VectorPaint
         }
 
         // 엔티티 큐
-        private List<EntityObject> entity = new List<EntityObject>();
+        private List<EntityObject> entities = new List<EntityObject>();
 
         private LwPolyline tempPolyline = new LwPolyline();
 
@@ -41,20 +42,41 @@ namespace VectorPaint
         private int direction;
         private int sideQty = 3;
         private int inscribed = 1;
+        private int Modify1Index = -1;
+        private int segmentIndex = -1;
 
         // float
         private float XScroll;
         private float YScroll;
         private float ScaleFactor = 1.0f;
         private float x1, x2, y1, y2;
+        private float edit_cursorSize = 2.5f;
+        private float draw_cursorSize = 5.0f;
 
         // bool
         private bool active_drawing = false;
         private bool active_zoom = false;
         private bool active_modify = false;
+        private bool active_selection = true;
 
         // base
         private SizeF drawingSize = new SizeF(297, 210);
+
+        // #035 - Index of entities
+        private PointF[] CursorRect(Vector3 mousePosition)
+        {
+            float l = edit_cursorSize * 0.5f;
+            float x = mousePosition.ToPointF.X;
+            float y = mousePosition.ToPointF.Y;
+
+            return new PointF[]
+            {
+                new PointF(x-1, y-1),
+                new PointF(x+1, y-1),
+                new PointF(x+1, y+1),
+                new PointF(x-1, y+1)
+            };
+        }
 
         // #001- Coordinate system
         // DPI값
@@ -129,7 +151,7 @@ namespace VectorPaint
                         // // #002- vector and draw a point
                         // point (점)
                         case 0:
-                            entity.Add(new Entities.Point(currentPosition));
+                            entities.Add(new Entities.Point(currentPosition));
                             break;
                         // #003 - draw a line
                         // line (선)                        
@@ -138,12 +160,12 @@ namespace VectorPaint
                             {
                                 case 1:
                                     firstPoint = currentPosition;
-                                    entity.Add(new Entities.Point(currentPosition));
+                                    // entities.Add(new Entities.Point(currentPosition));
                                     ClickNum++;
                                     break;
                                 case 2:
-                                    entity.Add(new Entities.Line(firstPoint, currentPosition));
-                                    entity.Add(new Entities.Point(currentPosition));
+                                    entities.Add(new Entities.Line(firstPoint, currentPosition));
+                                    // entities.Add(new Entities.Point(currentPosition));
                                     firstPoint = currentPosition;
                                     ClickNum = 1;
                                     break;
@@ -160,7 +182,7 @@ namespace VectorPaint
                                     break;
                                 case 2:
                                     double r = firstPoint.DistanceFrom(currentPosition);
-                                    entity.Add(new Entities.Circle(firstPoint, r));
+                                    entities.Add(new Entities.Circle(firstPoint, r));
                                     ClickNum = 1;
                                     break;
                             }
@@ -180,7 +202,7 @@ namespace VectorPaint
                                     break;
                                 case 3:
                                     Entities.Ellipse ellipse = Methods.Method.GetEllipse(firstPoint, secondPoint, currentPosition);
-                                    entity.Add(ellipse);
+                                    entities.Add(ellipse);
                                     ClickNum = 1;
                                     break;
                             }
@@ -195,7 +217,7 @@ namespace VectorPaint
                                     ClickNum++;
                                     break;
                                 case 2:
-                                    entity.Add(Methods.Method.PointToRect(firstPoint, currentPosition, out direction));
+                                    entities.Add(Methods.Method.PointToRect(firstPoint, currentPosition, out direction));
                                     ClickNum = 1;
                                     break;
                             }
@@ -210,7 +232,7 @@ namespace VectorPaint
                                     ClickNum++;
                                     break;
                                 case 2:
-                                    entity.Add(Methods.Method.GetPolygon(firstPoint, currentPosition, sideQty, inscribed));
+                                    entities.Add(Methods.Method.GetPolygon(firstPoint, currentPosition, sideQty, inscribed));
                                     ClickNum = 1;
                                     break;
                             }
@@ -230,7 +252,7 @@ namespace VectorPaint
                                     break;
                                 case 3:
                                     Arc a = Method.GetArcWith3Points(firstPoint, secondPoint, currentPosition);
-                                    entity.Add(a);
+                                    entities.Add(a);
                                     ClickNum = 1;
                                     break;
                             }
@@ -240,15 +262,37 @@ namespace VectorPaint
 
                 if (active_modify)
                 {
-                    // int segmentIndex = Method.GetSegmentIndex(entity, currentPosition, CursorRect(currentPosition), out Vector3 clickPoint);
-                    switch (ModifyIndex)
+                    if (active_selection)
+                        segmentIndex = Method.GetSegmentIndex(entities, currentPosition, CursorRect(currentPosition), out Vector3 clickPoint);
+
+                    switch (ClickNum)
                     {
-                        case 0:
-                            // MessageBox.Show(segmentIndex.ToString());
+                        case 1:
+                            firstPoint = currentPosition;
+                            ClickNum++;
+                            break;
+                        case 2:
+                            switch (Modify1Index)
+                            {
+                                // Copy object
+                                case 0:
+                                    Method.Modify1Selection(Modify1Index, entities, firstPoint, currentPosition);
+                                    active_selection = false;
+                                    break;
+                                // Move object
+                                case 1:
+                                // Rotate object
+                                case 2:
+                                // Scale object
+                                case 3:
+                                    Method.Modify1Selection(Modify1Index, entities, firstPoint, currentPosition);
+                                    CancelAll();
+                                    active_selection = false;
+                                    break;
+                            }
                             break;
                     }
                 }
-
                 drawing.Refresh();
             }
         }
@@ -268,12 +312,69 @@ namespace VectorPaint
             // #024 - pan a drawing (ScaleFactor 추가)
             extpen.DashPattern = new float[] { 1.0f / ScaleFactor, 2.0f / ScaleFactor };
 
+            /*
+            foreach(EntityObject entity in entities)
+            {
+                switch (entity.Type)
+                {
+                    case EntityType.Line:
+                        Vector3 p;
+                        foreach (EntityObject entity1 in entities)
+                        {
+                            switch(entity1.Type)
+                            {
+                                case EntityType.Ellipse:
+                                    List<Vector3> intersection = Method.LineEllipseIntersection(entity as Line, entity1 as Ellipse);
+                                    foreach (Vector3 v in intersection)
+                                        e.Graphics.DrawPoint(new Pen(Color.Red), new Entities.Point(v));
+                                    break;
+                                case EntityType.Circle:
+                                    intersection = Method.LineCircleIntersection(entity as Line, entity1 as Circle);
+                                    foreach (Vector3 v in intersection)
+                                        e.Graphics.DrawPoint(new Pen(Color.Red), new Entities.Point(v));
+                                    break;
+                                case EntityType.Arc:
+                                    intersection = Method.LineArcIntersection(entity as Line, entity1 as Arc);
+                                    foreach (Vector3 v in intersection)
+                                        e.Graphics.DrawPoint(new Pen(Color.Red), new Entities.Point(v));
+                                    break;
+                            }
+                        }
+                        break;
+                    case EntityType.Ellipse:
+                        double d = Method.DistancePointToEllipse(entity as Ellipse, currentPosition, out p);
+                        e.Graphics.DrawPoint(new Pen(Color.Red), new Entities.Point(p));
+                        e.Graphics.DrawLine(new Pen(Color.Gray, 0), new Line(p, currentPosition));
+                        Text = d.ToString();
+                        break;
+                    case EntityType.Circle:
+                        d = Method.DistancePointToCircle(entity as Circle, currentPosition, out p);
+                        e.Graphics.DrawPoint(new Pen(Color.Red), new Entities.Point(p));
+                        e.Graphics.DrawLine(new Pen(Color.Gray, 0), new Line(p, currentPosition));
+                        Text = d.ToString();
+                        break;
+                    case EntityType.Arc:
+                        d = Method.DistancePointToArc(entity as Arc, currentPosition, out p);
+                        e.Graphics.DrawPoint(new Pen(Color.Red), new Entities.Point(p));
+                        e.Graphics.DrawLine(new Pen(Color.Gray, 0), new Line(p, currentPosition));
+                        Text = d.ToString();
+                        break;
+                    case EntityType.LwPolyline:
+                        d = Method.DistancePointToLwPolyline(entity as LwPolyline, currentPosition, out p);
+                        e.Graphics.DrawPoint(new Pen(Color.Red), new Entities.Point(p));
+                        e.Graphics.DrawLine(new Pen(Color.Gray, 0), new Line(p, currentPosition));
+                        Text = d.ToString();
+                        break;
+                }
+            }
+            */
+
             // 엔티티 그리기
-            if (entity.Count > 0)
+            if (entities.Count > 0)
             {
                         
                 // 포인트 큐의 좌표 엔티티 추출 반복
-                foreach (EntityObject ent in entity)
+                foreach (EntityObject ent in entities)
                 {
                     // #022 - distance from a point to a line
                     // TEST
@@ -292,75 +393,78 @@ namespace VectorPaint
             }
 
             // 라인 그리기 (확장)
-            switch (DrawIndex)
+            if (active_drawing)
             {
-                // 선
-                case 1:
-                    if (ClickNum == 2)
-                    {
-                        Entities.Line line = new Entities.Line(firstPoint, currentPosition);
-                        e.Graphics.DrawLine(extpen, line);
-                    }
-                    break;
-                // 원
-                case 2:
-                    if (ClickNum == 2)
-                    {
-                        Entities.Line line = new Entities.Line(firstPoint, currentPosition);
-                        e.Graphics.DrawLine(extpen, line);
-                        double r = firstPoint.DistanceFrom(currentPosition);
-                        Entities.Circle circle = new Entities.Circle(firstPoint, r);
-                        e.Graphics.DrawCircle(extpen, circle);
-                    }
-                    break;
-                // 타원
-                case 3:
-                    switch (ClickNum)
-                    {
-                        case 2:
+                switch (DrawIndex)
+                {
+                    // 선
+                    case 1:
+                        if (ClickNum == 2)
+                        {
                             Entities.Line line = new Entities.Line(firstPoint, currentPosition);
                             e.Graphics.DrawLine(extpen, line);
-                            break;
-                        case 3:
-                            Entities.Line line1 = new Entities.Line(firstPoint, currentPosition);
-                            e.Graphics.DrawLine(extpen, line1);
-                            Entities.Ellipse elp = Methods.Method.GetEllipse(firstPoint, secondPoint, currentPosition);
-                            e.Graphics.DrawEllipse(extpen, elp);
-                            break;
-                    }
-                    break;
-                // 사각형
-                case 4:
-                    if (ClickNum == 2)
-                    {
-                        LwPolyline lw = Methods.Method.PointToRect(firstPoint, currentPosition, out direction);
-                        e.Graphics.DrawLwPolyline(extpen, lw);
-                    }
-                    break;
-                // 폴리곤
-                case 5:
-                    if (ClickNum == 2)
-                    {
-                        Entities.Line line = new Entities.Line(firstPoint, currentPosition);
-                        e.Graphics.DrawLine(extpen, line);
-                        LwPolyline lw = Method.GetPolygon(firstPoint, currentPosition, sideQty, inscribed);
-                        e.Graphics.DrawLwPolyline(extpen, lw);
-                    }
-                    break;
-                // 아크
-                case 6:
-                    switch (ClickNum)
-                    {
-                        case 2:
+                        }
+                        break;
+                    // 원
+                    case 2:
+                        if (ClickNum == 2)
+                        {
                             Entities.Line line = new Entities.Line(firstPoint, currentPosition);
                             e.Graphics.DrawLine(extpen, line);
-                            break;
-                        case 3:
-                            Arc a = Method.GetArcWith3Points(firstPoint, secondPoint, currentPosition);
-                            e.Graphics.DrawArc(extpen, a);
-                            break;
-                    }
-                    break;
+                            double r = firstPoint.DistanceFrom(currentPosition);
+                            Entities.Circle circle = new Entities.Circle(firstPoint, r);
+                            e.Graphics.DrawCircle(extpen, circle);
+                        }
+                        break;
+                    // 타원
+                    case 3:
+                        switch (ClickNum)
+                        {
+                            case 2:
+                                Entities.Line line = new Entities.Line(firstPoint, currentPosition);
+                                e.Graphics.DrawLine(extpen, line);
+                                break;
+                            case 3:
+                                Entities.Line line1 = new Entities.Line(firstPoint, currentPosition);
+                                e.Graphics.DrawLine(extpen, line1);
+                                Entities.Ellipse elp = Methods.Method.GetEllipse(firstPoint, secondPoint, currentPosition);
+                                e.Graphics.DrawEllipse(extpen, elp);
+                                break;
+                        }
+                        break;
+                    // 사각형
+                    case 4:
+                        if (ClickNum == 2)
+                        {
+                            LwPolyline lw = Methods.Method.PointToRect(firstPoint, currentPosition, out direction);
+                            e.Graphics.DrawLwPolyline(extpen, lw);
+                        }
+                        break;
+                    // 폴리곤
+                    case 5:
+                        if (ClickNum == 2)
+                        {
+                            Entities.Line line = new Entities.Line(firstPoint, currentPosition);
+                            e.Graphics.DrawLine(extpen, line);
+                            LwPolyline lw = Method.GetPolygon(firstPoint, currentPosition, sideQty, inscribed);
+                            e.Graphics.DrawLwPolyline(extpen, lw);
+                        }
+                        break;
+                    // 아크
+                    case 6:
+                        switch (ClickNum)
+                        {
+                            case 2:
+                                Entities.Line line = new Entities.Line(firstPoint, currentPosition);
+                                e.Graphics.DrawLine(extpen, line);
+                                break;
+                            case 3:
+                                Arc a = Method.GetArcWith3Points(firstPoint, secondPoint, currentPosition);
+                                e.Graphics.DrawArc(extpen, a);
+                                break;
+                        }
+                        break;
+                }
             }
 
             if (active_zoom)
@@ -370,6 +474,16 @@ namespace VectorPaint
                     case 2:
                         LwPolyline rect = Methods.Method.PointToRect(PointToCartesian(firstCorner), currentPosition, out direction);
                         e.Graphics.DrawLwPolyline(new Pen(Color.Red, 0), rect);
+                        break;
+                }
+            }
+
+            if (active_modify)
+            {
+                switch(ClickNum)
+                {
+                    case 2:
+                        e.Graphics.ExtendedOfModify(extpen, Modify1Index, entities, firstPoint, currentPosition);
                         break;
                 }
             }
@@ -498,12 +612,12 @@ namespace VectorPaint
                 {
                     case 1:
                         if (vertexes.Count > 2)
-                            entity.Add(new LwPolyline(vertexes, true));
+                            entities.Add(new LwPolyline(vertexes, true));
                         else
-                            entity.Add(new LwPolyline(vertexes, false));
+                            entities.Add(new LwPolyline(vertexes, false));
                         break;
                     case 2:
-                        entity.Add(new LwPolyline(vertexes, false));
+                        entities.Add(new LwPolyline(vertexes, false));
                         break;
                 }
             }
@@ -515,9 +629,19 @@ namespace VectorPaint
         {
             DrawIndex = -1;
             active_drawing = false;
-            ActiveCursor(0);
+            active_selection = true;
+            ActiveCursor(0, 0);
             ClickNum = 1;
             LwPolylineCloseStatus(index);
+            DeSelectAll();
+        }
+
+        // #037 - Copy and move
+        private void DeSelectAll()
+        {
+            foreach (EntityObject entity in entities)
+                entity.DeSelect();
+            drawing.Refresh();
         }
 
         // 버튼 클릭 이벤트
@@ -525,7 +649,9 @@ namespace VectorPaint
         {
             DrawIndex = 0;
             active_drawing = true;
-            ActiveCursor(1);
+            active_modify = false;
+            active_selection = true;
+            ActiveCursor(1, draw_cursorSize);
         }
 
         // 버튼 클릭 이벤트
@@ -533,7 +659,9 @@ namespace VectorPaint
         {
             DrawIndex = 1;
             active_drawing = true;
-            ActiveCursor(1);
+            active_modify = false;
+            active_selection = true;
+            ActiveCursor(1, draw_cursorSize);
         }
 
         // 버튼 클릭 이벤트
@@ -541,7 +669,9 @@ namespace VectorPaint
         {
             DrawIndex = 2;
             active_drawing = true;
-            ActiveCursor(1);
+            active_modify = false;
+            active_selection = true;
+            ActiveCursor(1, draw_cursorSize);
         }
 
         // 버튼 클릭 이벤트
@@ -549,7 +679,9 @@ namespace VectorPaint
         {
             DrawIndex = 3;
             active_drawing = true;
-            ActiveCursor(1);
+            active_modify = false;
+            active_selection = true;
+            ActiveCursor(1, draw_cursorSize);
         }
 
         // 버튼 클릭 이벤트
@@ -557,7 +689,9 @@ namespace VectorPaint
         {
             DrawIndex = 4;
             active_drawing = true;
-            ActiveCursor(1);
+            active_modify = false;
+            active_selection = true;
+            ActiveCursor(1, draw_cursorSize);
         }
 
         // 버튼 클릭 이벤트
@@ -565,7 +699,9 @@ namespace VectorPaint
         {
             DrawIndex = 5;
             active_drawing = true;
-            ActiveCursor(1);
+            active_modify = false;
+            active_selection = true;
+            ActiveCursor(1, draw_cursorSize);
         }
 
         // 버튼 클릭 이벤트
@@ -573,14 +709,19 @@ namespace VectorPaint
         {
             DrawIndex = 6;
             active_drawing = true;
-            ActiveCursor(1);
+            active_modify = false;
+            active_selection = true;
+            ActiveCursor(1, draw_cursorSize);
         }
 
         // 버튼 클릭 이벤트
         private void allClearBtn_Click(object sender, EventArgs e)
         {
             // Clear all lists containing shapes
-            entity.Clear();
+            entities.Clear();
+
+            active_drawing = false;
+            active_modify = false;
 
             // Refresh the drawing area to reflect the changes
             drawing.Refresh();
@@ -589,13 +730,45 @@ namespace VectorPaint
         // 버튼 클릭 이벤트
         private void zoomOutBtn_Click(object sender, EventArgs e)
         {
-            ZoomEvents(0);
+            // ZoomEvents(0);
         }
 
         // 버튼 클릭 이벤트
         private void zoomInBtn_Click(object sender, EventArgs e)
         {
-            ZoomEvents(1);
+            // ZoomEvents(1);
+        }
+
+        // 버튼 클릭 이벤트
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            active_drawing = false;
+            active_zoom = false;
+            active_modify = true;
+            active_selection = true;
+            ActiveCursor(2, edit_cursorSize);
+        }
+
+        // 버튼 클릭 이벤트
+        private void copyBtn_Click(object sender, EventArgs e)
+        {
+            Modify1Index = 0;
+        }
+
+        // 버튼 클릭 이벤트
+        private void moveBtn_Click(object sender, EventArgs e)
+        {
+            Modify1Index = 1;
+        }
+
+        private void rotateBtn_Click(object sender, EventArgs e)
+        {
+            Modify1Index = 2;
+        }
+
+        private void scaleBtn_Click(object sender, EventArgs e)
+        {
+            Modify1Index = 3;
         }
 
         // #010 - scroll bar

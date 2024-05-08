@@ -77,6 +77,60 @@ namespace VectorPaint.Entities
             get { return Methods.Method.IsEqual(this.startAngle, this.endAngle, Methods.Method.Epsilon); }
         }
 
+        public override object CopyOrMove(Vector3 fromPoint, Vector3 toPoint)
+        {
+            Vector3 c = this.center.CopyOrMove(fromPoint, toPoint);
+
+            return new Ellipse
+            {
+                Center = c,
+                MajorAxis = this.majorAxis,
+                MinorAxis = this.minorAxis,
+                Rotation = this.rotation,
+                StartAngle = this.startAngle,
+                EndAngle = this.endAngle,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Rotate2D(Vector3 basePoint, Vector3 targetPoint)
+        {
+            Vector3 c = this.center.Rotate2D(basePoint, targetPoint);
+            double angle = basePoint.AngleWith(targetPoint) + this.Rotation;
+
+            return new Ellipse
+            {
+                Center = c,
+                MajorAxis = this.majorAxis,
+                MinorAxis = this.minorAxis,
+                Rotation = angle,
+                StartAngle = this.startAngle,
+                EndAngle = this.endAngle,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Scale(Vector3 basePoint, double value)
+        {
+            Vector3 c = this.center.Scale(basePoint, value);
+            double major = this.majorAxis * value;
+            double minor = this.minorAxis * value;
+
+            return new Ellipse
+            {
+                Center = c,
+                MajorAxis = major,
+                MinorAxis = minor,
+                Rotation = this.rotation,
+                StartAngle = this.startAngle,
+                EndAngle = this.endAngle,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
         public override object Clone()
         {
             return new Ellipse

@@ -49,6 +49,46 @@ namespace VectorPaint.Entities
             }
         }
 
+        public override object CopyOrMove(Vector3 fromPoint, Vector3 toPoint)
+        {
+            Vector3 c = this.center.CopyOrMove(fromPoint, toPoint);
+
+            return new Circle
+            {
+                Center = c,
+                Radius = this.radius,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Rotate2D(Vector3 basePoint, Vector3 targetPoint)
+        {
+            Vector3 c = this.center.Rotate2D(basePoint, targetPoint);
+
+            return new Circle
+            {
+                Center = c,
+                Radius = this.radius,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Scale(Vector3 basePoint, double value)
+        {
+            Vector3 c = this.center.Scale(basePoint, value);
+            double r = this.radius * value;
+
+            return new Circle
+            {
+                Center = c,
+                Radius = r,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
         public override object Clone()
         {
             return new Circle

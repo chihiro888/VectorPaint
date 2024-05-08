@@ -78,7 +78,10 @@ namespace VectorPaint
             System.Drawing.RectangleF rect = new System.Drawing.RectangleF(x, y, d, d);
 
             g.SetTransform();
-            g.DrawArc(pen, rect, (float)arc.StartAngle, (float)arc.EndAngle);
+            if (!arc.IsSelected)
+                g.DrawArc(pen, rect, (float)arc.StartAngle, (float)arc.EndAngle);
+            else
+                g.DrawArc(extpen, rect, (float)arc.StartAngle, (float)arc.EndAngle);
             g.ResetTransform();
         }
 
@@ -114,20 +117,13 @@ namespace VectorPaint
         // #011 - draw a polyline
         public static void DrawLwPolyline(this Graphics g, Pen pen, LwPolyline polyline)
         {
-            PointF[] vertexes = new PointF[polyline.Vertexes.Count];
-
-            if (polyline.IsClosed)
+            foreach(EntityObject entity in polyline.Explode())
             {
-                vertexes = new PointF[polyline.Vertexes.Count + 1];
-                vertexes[polyline.Vertexes.Count] = polyline.Vertexes[0].Position.ToPointF;
+                if (!polyline.IsSelected)
+                    g.DrawEntity(pen, entity);
+                else
+                    g.DrawEntity(extpen, entity);
             }
-
-            for (int i = 0; i < polyline.Vertexes.Count; i++)
-                vertexes[i] = polyline.Vertexes[i].Position.ToPointF;
-
-            g.SetTransform();
-            g.DrawLines(pen, vertexes);
-            g.ResetTransform();
         }
 
         // #018 - Entity object class
@@ -154,6 +150,38 @@ namespace VectorPaint
                     g.DrawPoint(pen, entity as Entities.Point);
                     break;
 
+            }
+        }
+
+        // #037 - Copy and move
+        public static void ExtendedOfModify(this Graphics g, Pen pen, int modifyIndex, List<EntityObject> entities, Vector3 fromPoint, Vector3 toPoint)
+        {
+            g.DrawLine(pen, new Line(fromPoint, toPoint));
+
+            for(int i=0; i<entities.Count; i++)
+            {
+                if (entities[i].IsSelected)
+                {
+                    switch (modifyIndex)
+                    {
+                        // Copy
+                        case 0:
+                            g.DrawEntity(pen, entities[i].CopyOrMove(fromPoint, toPoint) as EntityObject);
+                            break;
+                        // Move
+                        case 1:
+                            g.DrawEntity(pen, entities[i].CopyOrMove(fromPoint, toPoint) as EntityObject);
+                            break;
+                        // Rotate
+                        case 2:
+                            g.DrawEntity(pen, entities[i].Rotate2D(fromPoint, toPoint) as EntityObject);
+                            break;
+                        // Scale
+                        case 3:
+                            g.DrawEntity(pen, entities[i].Scale(fromPoint, fromPoint.DistanceFrom(toPoint)) as EntityObject);
+                            break;
+                    }
+                }
             }
         }
     }

@@ -19,10 +19,10 @@ namespace VectorPaint.Entities
         public Point(Vector3 position) : base(EntityType.Point)
         {
             this.Position = position;
-            this.Tickness = 0.0;
+            this.Thickness = 0.0;
         }
 
-        public double Tickness
+        public double Thickness
         {
             get { return thickness; }
             set { thickness = value; }
@@ -32,6 +32,42 @@ namespace VectorPaint.Entities
         {
             get { return position; }
             set { position = value; }
+        }
+
+        public override object CopyOrMove(Vector3 fromPoint, Vector3 toPoint)
+        {
+            Vector3 p = this.position.CopyOrMove(fromPoint, toPoint);
+
+            return new Entities.Point
+            {
+                Position = p,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Rotate2D(Vector3 basePoint, Vector3 targetPoint)
+        {
+            Vector3 p = this.position.Rotate2D(basePoint, targetPoint);
+
+            return new Entities.Point
+            {
+                Position = p,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Scale(Vector3 basePoint, double value)
+        {
+            Vector3 p = this.position.Scale(basePoint, value);
+
+            return new Entities.Point
+            {
+                Position = p,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
         }
 
         public override object Clone()

@@ -53,6 +53,12 @@ namespace VectorPaint.Entities
             this.selected = false;
         }
 
+        public abstract object CopyOrMove(Vector3 fromPoint, Vector3 toPoint);
+
+        public abstract object Rotate2D(Vector3 basePoint, Vector3 targetPoint);
+
+        public abstract object Scale(Vector3 basePoint, double value);
+
         public abstract object Clone();
     }
 }

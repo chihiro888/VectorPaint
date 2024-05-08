@@ -55,6 +55,59 @@ namespace VectorPaint.Entities
             }
         }
 
+        public double Angle
+        {
+            get
+            {
+                double angle = Math.Atan2((endPoint.Y - startPoint.Y), (endPoint.X - startPoint.X)) * 180.0 / Math.PI;
+                if (angle < 0)
+                    angle += 360.0;
+                return angle;
+            }
+        }
+
+        public override object CopyOrMove(Vector3 fromPoint, Vector3 toPoint)
+        {
+            Vector3 startPoint = this.startPoint.CopyOrMove(fromPoint, toPoint);
+            Vector3 endPoint = this.endPoint.CopyOrMove(fromPoint, toPoint);
+
+            return new Line
+            {
+                StartPoint = startPoint,
+                EndPoint = endPoint,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Rotate2D(Vector3 basePoint, Vector3 targetPoint)
+        {
+            Vector3 startPoint = this.startPoint.Rotate2D(basePoint, targetPoint);
+            Vector3 endPoint = this.endPoint.Rotate2D(basePoint, targetPoint);
+
+            return new Line
+            {
+                StartPoint = startPoint,
+                EndPoint = endPoint,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Scale(Vector3 basePoint, double value)
+        {
+            Vector3 startPoint = this.startPoint.Scale(basePoint, value);
+            Vector3 endPoint = this.endPoint.Scale(basePoint, value);
+
+            return new Line
+            {
+                StartPoint = startPoint,
+                EndPoint = endPoint,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
         public override object Clone()
         {
             return new Line

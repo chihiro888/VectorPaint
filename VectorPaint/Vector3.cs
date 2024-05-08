@@ -135,7 +135,6 @@ namespace VectorPaint
             );
         }
 
-        /*
         public static bool operator ==(Vector3 v1, Vector3 v2)
         {
             return Equals(v1, v2);
@@ -145,11 +144,58 @@ namespace VectorPaint
         {
             return !Equals(v1, v2);
         }
-        */
+
+        public static Vector3 operator +(Vector3 v1, Vector3 v2)
+        {
+            return new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+        }
+
+        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+        {
+            return new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+        }
+
+        public static Vector3 operator -(Vector3 v)
+        {
+            return new Vector3(-v.X, -v.Y, -v.Z);
+        }
+
+        public static Vector3 operator *(Vector3 v, double d)
+        {
+            return new Vector3(v.X * d, v.Y * d, v.Z * d);
+        }
+
+        public static Vector3 operator *(double d, Vector3 v)
+        {
+            return new Vector3(v.X * d, v.Y * d, v.Z * d);
+        }
+
+        public static Vector3 operator /(Vector3 v, double d)
+        {
+            double inv = 1 / d;
+            return v * inv;
+        }
+
+        public static Vector3 operator /(double d, Vector3 v)
+        {
+            return new Vector3(d / v.X, d / v.Y, d / v.Z);
+        }
 
         public void Normalize()
         {
-            // TODO #032 - methods and operators in Vector3
+            double m = Modulus();
+            if (Methods.Method.IsZero(m, Methods.Method.Epsilon))
+                throw new ArithmeticException("Cannot normalize a zero vector.");
+            double m_inv = 1 / m;
+            this.x *= m_inv;
+            this.y *= m_inv; 
+            this.z *= m_inv;
+
+        }
+
+        public double Modulus()
+        {
+            return Math.Sqrt(DotProduct(this, this));
         }
 
         public double AngleWith(Vector3 v)
@@ -160,13 +206,19 @@ namespace VectorPaint
             return angle;
         }
 
-        /*
         public bool Equals(Vector3 v, double threshold)
         {
-            // TODO #032 - methods and operators in Vector3
-            return true;
+            return (Methods.Method.IsEqual(v.X, this.x, threshold) && 
+                (Methods.Method.IsEqual(v.Y, this.y, threshold) && 
+                (Methods.Method.IsEqual(v.Z, this.z, threshold))));
         }
-        */
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Vector3)
+                return this.Equals((Vector3)obj, Methods.Method.Epsilon);
+            return false;
+        }
 
         public double DistanceFrom(Vector3 v)
         {
@@ -179,6 +231,45 @@ namespace VectorPaint
         public Vector2 ToVector2
         {
             get { return new Vector2(X, Y); }
+        }
+
+        public Vector3 CopyOrMove(Vector3 fromPoint, Vector3 toPoint)
+        {
+            double dx = toPoint.X - fromPoint.X;
+            double dy = toPoint.Y - fromPoint.Y;
+            double dz = toPoint.Z - fromPoint.Z;
+
+            return new Vector3(this.x + dx, this.y + dy, this.z + dz);
+        }
+
+        public Vector3 Rotate2D(Vector3 basePoint, Vector3 targetPoint)
+        {
+            double angle = basePoint.AngleWith(targetPoint);
+            double length = basePoint.DistanceFrom(this);
+            angle += basePoint.AngleWith(this);
+
+            double sin = Math.Sin(angle * Math.PI / 180.0);
+            double cos = Math.Cos(angle * Math.PI / 180.0);
+
+            double x = length * cos + basePoint.X;
+            double y = length * sin + basePoint.Y;
+
+            return new Vector3(x, y);
+        }
+
+        public Vector3 Scale(Vector3 basePoint, double value)
+        {
+            double length = this.DistanceFrom(basePoint) * value;
+            double angle = basePoint.AngleWith(this) * Math.PI / 180.0;
+            double x = length * Math.Cos(angle) + basePoint.X;
+            double y = length * Math.Sin(angle) + basePoint.Y;
+
+            return new Vector3(x, y);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}, {1}, {2}", X, Y, Z);
         }
     }
 }

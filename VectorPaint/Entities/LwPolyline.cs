@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace VectorPaint.Entities
 {
@@ -58,8 +59,6 @@ namespace VectorPaint.Entities
             get { return thickness; }
             set { thickness = value; }
         }
-
-        /*
         public List<EntityObject> Explode()
         {
             List<EntityObject> entities = new List<EntityObject>();
@@ -93,7 +92,8 @@ namespace VectorPaint.Entities
                         EndPoint = new Vector3(p2.X, p2.Y),
                         Thickness = this.thickness,
                     });
-                } else
+                } 
+                else
                 {
                     double theta = 4 * Math.Atan(Math.Abs(bulge));
                     double c = p1.DistanceForm(p2);
@@ -107,11 +107,12 @@ namespace VectorPaint.Entities
                             EndPoint = new Vector3(p2.X, p2.Y),
                             Thickness = this.thickness,
                         });
-                    } else
+                    } 
+                    else
                     {
                         double gama = (Math.PI - theta) / 2;
                         double phi = p1.AngleWith(p2) + Math.Sign(bulge) * gama;
-                        Vector3 center = new Vector2(p1.X + r * Math.Cos(phi), p1.Y + r * Math.Sin(phi));
+                        Vector2 center = new Vector2(p1.X + r * Math.Cos(phi), p1.Y + r * Math.Sin(phi));
                         double startAngle, endAngle; 
 
                         if (bulge > 0 )
@@ -139,7 +140,76 @@ namespace VectorPaint.Entities
             }
             return entities;
         }
-        */
+
+        public override object CopyOrMove(Vector3 fromPoint, Vector3 toPoint)
+        {
+            List<LwPolylineVertex> vertex = new List<LwPolylineVertex>();
+
+            foreach(LwPolylineVertex lw in this.vertexes)
+            {
+                LwPolylineVertex lv = new LwPolylineVertex
+                {
+                    Position = lw.Position.CopyOrMove(fromPoint.ToVector2, toPoint.ToVector2),
+                    Bulge = lw.Bulge
+                };
+                vertex.Add(lv);
+            }
+
+            return new LwPolyline
+            {
+                Vertexes = vertex,
+                Flags = this.flags,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Rotate2D(Vector3 basePoint, Vector3 targetPoint)
+        {
+            List<LwPolylineVertex> vertex = new List<LwPolylineVertex>();
+
+            foreach (LwPolylineVertex lw in this.vertexes)
+            {
+                LwPolylineVertex lv = new LwPolylineVertex
+                {
+                    Position = lw.Position.Rotate2D(basePoint.ToVector2, targetPoint.ToVector2),
+                    Bulge = lw.Bulge
+                };
+                vertex.Add(lv);
+            }
+
+            return new LwPolyline
+            {
+                Vertexes = vertex,
+                Flags = this.flags,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
+        public override object Scale(Vector3 basePoint, double value)
+        {
+            List<LwPolylineVertex> vertex = new List<LwPolylineVertex>();
+
+            foreach (LwPolylineVertex lw in this.vertexes)
+            {
+                LwPolylineVertex lv = new LwPolylineVertex
+                {
+                    Position = lw.Position.Scale(basePoint, value),
+                    Bulge = lw.Bulge
+                };
+                vertex.Add(lv);
+            }
+
+            return new LwPolyline
+            {
+                Vertexes = vertex,
+                Flags = this.flags,
+                Thickness = this.thickness,
+                IsVisible = this.isVisible
+            };
+        }
+
 
         public override object Clone()
         {

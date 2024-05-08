@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace VectorPaint.Entities
 {
     // #011 - draw a polyline
-    public class LwPolylineVertex: EntityObject
+    public class LwPolylineVertex: ICloneable
     {
         private Vector2 position;
         private double bulge;
@@ -20,7 +20,7 @@ namespace VectorPaint.Entities
         {
         }
 
-        public LwPolylineVertex(Vector2 position, double bulge): base(EntityType.LwPolylineVertext)
+        public LwPolylineVertex(Vector2 position, double bulge)
         {
             this.position = position;
             this.bulge = bulge;
@@ -42,7 +42,7 @@ namespace VectorPaint.Entities
             set { bulge = value; }  
         }
 
-        public override object Clone()
+        public object Clone()
         {
             return new LwPolylineVertex
             {

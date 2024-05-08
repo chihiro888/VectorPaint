@@ -43,6 +43,11 @@
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.arcBtn = new System.Windows.Forms.Button();
+            this.EditBtn = new System.Windows.Forms.Button();
+            this.copyBtn = new System.Windows.Forms.Button();
+            this.moveBtn = new System.Windows.Forms.Button();
+            this.rotateBtn = new System.Windows.Forms.Button();
+            this.scaleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -228,11 +233,81 @@
             this.arcBtn.UseVisualStyleBackColor = true;
             this.arcBtn.Click += new System.EventHandler(this.arcBtn_Click);
             // 
+            // EditBtn
+            // 
+            this.EditBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditBtn.Location = new System.Drawing.Point(375, 372);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(101, 23);
+            this.EditBtn.TabIndex = 16;
+            this.EditBtn.Text = "Edit";
+            this.EditBtn.UseVisualStyleBackColor = true;
+            this.EditBtn.Click += new System.EventHandler(this.EditBtn_Click);
+            // 
+            // copyBtn
+            // 
+            this.copyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyBtn.Location = new System.Drawing.Point(375, 401);
+            this.copyBtn.Name = "copyBtn";
+            this.copyBtn.Size = new System.Drawing.Size(101, 23);
+            this.copyBtn.TabIndex = 17;
+            this.copyBtn.Text = "Copy";
+            this.copyBtn.UseVisualStyleBackColor = true;
+            this.copyBtn.Click += new System.EventHandler(this.copyBtn_Click);
+            // 
+            // moveBtn
+            // 
+            this.moveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.moveBtn.Location = new System.Drawing.Point(482, 401);
+            this.moveBtn.Name = "moveBtn";
+            this.moveBtn.Size = new System.Drawing.Size(101, 23);
+            this.moveBtn.TabIndex = 18;
+            this.moveBtn.Text = "Move";
+            this.moveBtn.UseVisualStyleBackColor = true;
+            this.moveBtn.Click += new System.EventHandler(this.moveBtn_Click);
+            // 
+            // rotateBtn
+            // 
+            this.rotateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rotateBtn.Location = new System.Drawing.Point(375, 430);
+            this.rotateBtn.Name = "rotateBtn";
+            this.rotateBtn.Size = new System.Drawing.Size(101, 23);
+            this.rotateBtn.TabIndex = 19;
+            this.rotateBtn.Text = "Rotate";
+            this.rotateBtn.UseVisualStyleBackColor = true;
+            this.rotateBtn.Click += new System.EventHandler(this.rotateBtn_Click);
+            // 
+            // scaleBtn
+            // 
+            this.scaleBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scaleBtn.Location = new System.Drawing.Point(482, 430);
+            this.scaleBtn.Name = "scaleBtn";
+            this.scaleBtn.Size = new System.Drawing.Size(101, 23);
+            this.scaleBtn.TabIndex = 20;
+            this.scaleBtn.Text = "Scale";
+            this.scaleBtn.UseVisualStyleBackColor = true;
+            this.scaleBtn.Click += new System.EventHandler(this.scaleBtn_Click);
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 466);
+            this.Controls.Add(this.scaleBtn);
+            this.Controls.Add(this.rotateBtn);
+            this.Controls.Add(this.moveBtn);
+            this.Controls.Add(this.copyBtn);
+            this.Controls.Add(this.EditBtn);
             this.Controls.Add(this.arcBtn);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.hScrollBar1);
@@ -276,6 +351,11 @@
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.Button arcBtn;
+        private System.Windows.Forms.Button EditBtn;
+        private System.Windows.Forms.Button copyBtn;
+        private System.Windows.Forms.Button moveBtn;
+        private System.Windows.Forms.Button rotateBtn;
+        private System.Windows.Forms.Button scaleBtn;
     }
 }
 
