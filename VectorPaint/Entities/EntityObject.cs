@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
+    // #018 - Entity object class
     public abstract class EntityObject : ICloneable
     {
         private readonly EntityType type;

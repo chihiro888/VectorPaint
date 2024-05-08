@@ -40,7 +40,6 @@
             this.polygonBtn = new System.Windows.Forms.Button();
             this.zoomInBtn = new System.Windows.Forms.Button();
             this.zoomOutBtn = new System.Windows.Forms.Button();
-            this.zoomWinBtn = new System.Windows.Forms.Button();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.arcBtn = new System.Windows.Forms.Button();
@@ -61,6 +60,7 @@
             this.drawing.Paint += new System.Windows.Forms.PaintEventHandler(this.drawing_Paint);
             this.drawing.MouseDown += new System.Windows.Forms.MouseEventHandler(this.drawing_MouseDown);
             this.drawing.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drawing_MouseMove);
+            this.drawing.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.drawing_MouseWheel);
             // 
             // label1
             // 
@@ -152,7 +152,7 @@
             this.allClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.allClearBtn.Location = new System.Drawing.Point(664, 347);
+            this.allClearBtn.Location = new System.Drawing.Point(663, 326);
             this.allClearBtn.Name = "allClearBtn";
             this.allClearBtn.Size = new System.Drawing.Size(101, 23);
             this.allClearBtn.TabIndex = 8;
@@ -178,7 +178,7 @@
             this.zoomInBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomInBtn.Location = new System.Drawing.Point(664, 233);
+            this.zoomInBtn.Location = new System.Drawing.Point(663, 256);
             this.zoomInBtn.Name = "zoomInBtn";
             this.zoomInBtn.Size = new System.Drawing.Size(101, 23);
             this.zoomInBtn.TabIndex = 10;
@@ -191,26 +191,13 @@
             this.zoomOutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomOutBtn.Location = new System.Drawing.Point(664, 262);
+            this.zoomOutBtn.Location = new System.Drawing.Point(663, 285);
             this.zoomOutBtn.Name = "zoomOutBtn";
             this.zoomOutBtn.Size = new System.Drawing.Size(101, 23);
             this.zoomOutBtn.TabIndex = 11;
             this.zoomOutBtn.Text = "Zoom Out";
             this.zoomOutBtn.UseVisualStyleBackColor = true;
             this.zoomOutBtn.Click += new System.EventHandler(this.zoomOutBtn_Click);
-            // 
-            // zoomWinBtn
-            // 
-            this.zoomWinBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.zoomWinBtn.Location = new System.Drawing.Point(664, 291);
-            this.zoomWinBtn.Name = "zoomWinBtn";
-            this.zoomWinBtn.Size = new System.Drawing.Size(101, 23);
-            this.zoomWinBtn.TabIndex = 12;
-            this.zoomWinBtn.Text = "Zoom Win";
-            this.zoomWinBtn.UseVisualStyleBackColor = true;
-            this.zoomWinBtn.Click += new System.EventHandler(this.zoomWinBtn_Click);
             // 
             // hScrollBar1
             // 
@@ -249,7 +236,6 @@
             this.Controls.Add(this.arcBtn);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.hScrollBar1);
-            this.Controls.Add(this.zoomWinBtn);
             this.Controls.Add(this.zoomOutBtn);
             this.Controls.Add(this.zoomInBtn);
             this.Controls.Add(this.polygonBtn);
@@ -287,7 +273,6 @@
         private System.Windows.Forms.Button polygonBtn;
         private System.Windows.Forms.Button zoomInBtn;
         private System.Windows.Forms.Button zoomOutBtn;
-        private System.Windows.Forms.Button zoomWinBtn;
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.Button arcBtn;

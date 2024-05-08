@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint
 {
+    // #011 - draw a polyline
     public class Vector2
     {
         private double x;
@@ -127,6 +128,7 @@ namespace VectorPaint
         }
         */
 
+        // #011 - draw a polyline
         public double DistanceForm(Vector2 v)
         {
             double dx = v.X - X;
@@ -134,6 +136,7 @@ namespace VectorPaint
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
+        // #011 - draw a polyline
         public System.Drawing.PointF ToPointF
         {
             get { return new System.Drawing.PointF((float)X, (float)Y); }

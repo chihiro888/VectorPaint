@@ -21,7 +21,6 @@ namespace VectorPaint
 
         // 엔티티 큐
         private List<EntityObject> entity = new List<EntityObject>();
-        private List<Entities.Arc> arcs = new List<Entities.Arc>();
 
         private LwPolyline tempPolyline = new LwPolyline();
 
@@ -47,6 +46,7 @@ namespace VectorPaint
         private float XScroll;
         private float YScroll;
         private float ScaleFactor = 1.0f;
+        private float x1, x2, y1, y2;
 
         // bool
         private bool active_drawing = false;
@@ -88,6 +88,13 @@ namespace VectorPaint
             currentPosition = PointToCartesian(e.Location);
             label1.Text = string.Format("{0}, {1}", e.Location.X, e.Location.Y);
             label2.Text = string.Format("{0}, {1}", currentPosition.X, currentPosition.Y);
+
+            // #025 - mouse wheel event
+            x1 = e.Location.X;
+            x2 = drawing.ClientSize.Width - x1;
+            y1 = e.Location.Y;
+            y2 = drawing.ClientSize.Height - y1;
+
             drawing.Refresh();
         }
 
@@ -109,6 +116,7 @@ namespace VectorPaint
                         case 2:
                             SetZoomWin(firstCorner, e.Location);
                             active_zoom = false;
+                            active_drawing = false;
                             zoomClick = 1;
                             break;
                     }
@@ -141,6 +149,7 @@ namespace VectorPaint
                                     break;
                             }
                             break;
+                        // # 004 - draw a circle
                         // circle (원)
                         case 2:
                             switch (ClickNum)
@@ -156,6 +165,7 @@ namespace VectorPaint
                                     break;
                             }
                             break;
+                        // #005 - draw an ellipse
                         // Ellipse (타원)
                         case 3:
                             switch (ClickNum)
@@ -175,6 +185,7 @@ namespace VectorPaint
                                     break;
                             }
                             break;
+                        // #012 - draw a rectangle
                         // Rectangle (사각형)
                         case 4:
                             switch (ClickNum)
@@ -189,6 +200,7 @@ namespace VectorPaint
                                     break;
                             }
                             break;
+                        // #013 - draw a polygon
                         // Polygon (삼각형)
                         case 5:
                             switch (ClickNum)
@@ -218,7 +230,7 @@ namespace VectorPaint
                                     break;
                                 case 3:
                                     Arc a = Method.GetArcWith3Points(firstPoint, secondPoint, currentPosition);
-                                    arcs.Add(a);
+                                    entity.Add(a);
                                     ClickNum = 1;
                                     break;
                             }
@@ -252,7 +264,9 @@ namespace VectorPaint
             // 펜 객체 생성
             Pen pen = new Pen(Color.Blue, 0.1f);
             Pen extpen = new Pen(Color.Gray, 0.1f);
-            extpen.DashPattern = new float[] { 1.0f, 2.0f };
+
+            // #024 - pan a drawing (ScaleFactor 추가)
+            extpen.DashPattern = new float[] { 1.0f / ScaleFactor, 2.0f / ScaleFactor };
 
             // 엔티티 그리기
             if (entity.Count > 0)
@@ -261,6 +275,8 @@ namespace VectorPaint
                 // 포인트 큐의 좌표 엔티티 추출 반복
                 foreach (EntityObject ent in entity)
                 {
+                    // #022 - distance from a point to a line
+                    // TEST
                     /*
                     if (ent is Line)
                     {
@@ -272,16 +288,6 @@ namespace VectorPaint
 
                     // 엔티티 그리기
                     e.Graphics.DrawEntity(pen, ent);
-                }
-            }
-
-
-            // 아크 그리기
-            if (arcs.Count > 0)
-            {
-                foreach(Arc arc in arcs)
-                {
-                    e.Graphics.DrawArc(pen, arc);
                 }
             }
 
@@ -369,6 +375,8 @@ namespace VectorPaint
             }
         }
 
+        // #021 - custom cursor
+        // #023 - zoom & crop (파라미터 확장)
         // 커서 활성화
         private void ActiveCursor(int index, float size = 5)
         {
@@ -378,6 +386,7 @@ namespace VectorPaint
             drawing.Cursor = cursor;
         }
 
+        // #021 - custom cursor
         // 밀리미터 단위를 화면 픽셀 값로 변환
         private float Mn_to_Pixel(float pixel)
         {
@@ -427,6 +436,8 @@ namespace VectorPaint
 
             XScroll = XScroll * scale - Pixel_to_Mn(wl);
             YScroll = -YScroll * scale + Pixel_to_Mn(hl);
+
+            SetScrollBarValues();
         }
 
         // #023 - zoom & crop
@@ -455,9 +466,27 @@ namespace VectorPaint
             float height = Math.Max(0, drawingSize.Height * ScaleFactor - Pixel_to_Mn(drawing.ClientSize.Height)) + 59 * ScaleFactor;
 
             // TODO
+            hScrollBar1.Maximum = (int)width;
+            hScrollBar1.Minimum = -(int)(50 * ScaleFactor);
+
+            vScrollBar1.Maximum = (int)(59 * ScaleFactor);
+            vScrollBar1.Minimum = -(int)height;
+
+            try
+            {
+                hScrollBar1.Minimum = (int)Math.Min(XScroll, hScrollBar1.Minimum);
+                hScrollBar1.Maximum = (int)Math.Max(XScroll, hScrollBar1.Maximum);
+                vScrollBar1.Minimum = (int)Math.Min(YScroll, vScrollBar1.Minimum);
+                vScrollBar1.Maximum = (int)Math.Max(YScroll, vScrollBar1.Maximum);
+
+                hScrollBar1.Value = (int)XScroll;
+                vScrollBar1.Value = (int)YScroll;
+            }
+            catch { }
+            drawing.Refresh();
         }
 
-        // ???
+        // #011 - draw a polyline
         private void LwPolylineCloseStatus(int index)
         {
             List<LwPolylineVertex> vertexes = new List<LwPolylineVertex>();
@@ -558,21 +587,15 @@ namespace VectorPaint
         }
 
         // 버튼 클릭 이벤트
-        private void zoomInBtn_Click(object sender, EventArgs e)
-        {
-            //
-        }
-
-        // 버튼 클릭 이벤트
         private void zoomOutBtn_Click(object sender, EventArgs e)
         {
-            //
+            ZoomEvents(0);
         }
 
         // 버튼 클릭 이벤트
-        private void zoomWinBtn_Click(object sender, EventArgs e)
+        private void zoomInBtn_Click(object sender, EventArgs e)
         {
-            //
+            ZoomEvents(1);
         }
 
         // #010 - scroll bar
@@ -589,6 +612,31 @@ namespace VectorPaint
         {
             YScroll = (sender as VScrollBar).Value;
             drawing.Refresh();
+        }
+
+        // #025 - mouse wheel event
+        private void drawing_MouseWheel(object sender, MouseEventArgs e)
+        {
+            float cx = drawing.ClientSize.Width / 2.0f;
+            float cy = drawing.ClientSize.Height / 2.0f;
+
+            float w = (x1 < cx) ? Math.Min(x1, x2) * 2.0f : Math.Max(x1, x2) * 2.0f;
+            float h = (y1 < cy) ? Math.Max(y1, y2) * 2.0f : Math.Min(y1, y2) * 2.0f;
+
+            float scale = (e.Delta < 0) ? 1 / 1.25f : 1.25f;
+
+            ScaleFactor *= scale;
+
+            float width = w * scale;
+            float height = h * scale;
+
+            float wl = (w - width) / 2;
+            float hl = (h - height) / 2;
+
+            XScroll = XScroll * scale - Pixel_to_Mn(wl);
+            YScroll = YScroll * scale + Pixel_to_Mn(hl);
+
+            SetScrollBarValues();
         }
     }
 }

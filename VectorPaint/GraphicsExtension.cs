@@ -83,6 +83,7 @@ namespace VectorPaint
         }
 
 
+        // # 004 - draw a circle
         public static void DrawCircle(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Circle circle)
         {
             float x = (float)(circle.Center.X - circle.Radius);
@@ -96,6 +97,7 @@ namespace VectorPaint
             g.ResetTransform();
         }
 
+        // #005 - draw an ellipse
         public static void DrawEllipse(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Ellipse ellipse)
         {
         
@@ -109,6 +111,7 @@ namespace VectorPaint
             g.ResetTransform();
         }
 
+        // #011 - draw a polyline
         public static void DrawLwPolyline(this Graphics g, Pen pen, LwPolyline polyline)
         {
             PointF[] vertexes = new PointF[polyline.Vertexes.Count];
@@ -127,10 +130,14 @@ namespace VectorPaint
             g.ResetTransform();
         }
 
+        // #018 - Entity object class
         public static void DrawEntity(this Graphics g, Pen pen, EntityObject entity)
         {
             switch (entity.Type)
             {
+                case EntityType.Arc:
+                    g.DrawArc(pen, entity as Arc);
+                    break;
                 case EntityType.Ellipse:
                     g.DrawEllipse(pen, entity as Ellipse);
                     break;

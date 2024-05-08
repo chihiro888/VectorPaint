@@ -36,22 +36,22 @@ namespace VectorPaint.Methods
         }
 
         // #006 - intersection of two lines
-        private static double Epsilon = 1e-12;
+        public static double Epsilon = 1e-12;
 
         // #006 - intersection of two lines
-        private static bool IsEqual(double d1, double d2)
+        public static bool IsEqual(double d1, double d2)
         {
             return IsEqual(d1, d2, Epsilon);
         }
 
         // #006 - intersection of two lines
-        private static bool IsEqual(double d1, double d2, double epsilon)
+        public static bool IsEqual(double d1, double d2, double epsilon)
         {
             return IsZero(d1 - d2, epsilon);
         }
 
         // #006 - intersection of two lines
-        private static bool IsZero(double d, double epsilon)
+        public static bool IsZero(double d, double epsilon)
         {
             return d >= -epsilon && d <= epsilon;
         }
@@ -146,6 +146,7 @@ namespace VectorPaint.Methods
             return result;
         }
 
+        // #008 - draw an arc
         private static double DeterminePointOfLine(Line line, Vector3 v)
         {
             return (v.X - line.StartPoint.X) * (line.EndPoint.Y - line.StartPoint.Y) - (v.Y - line.StartPoint.Y) * (line.EndPoint.X - line.StartPoint.X);
@@ -293,6 +294,110 @@ namespace VectorPaint.Methods
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
+        // #014 - draw an arc with 3 points
+        public static Arc GetArcWithCenterStartEnd(Vector3 center, Vector3 startPoint, Vector3 endPoint)
+        {
+            double start = LineAngle(center, startPoint);
+            double end = LineAngle(center, endPoint);
+            double radius = center.DistanceFrom(startPoint);
+
+            if (end > start)
+                end -= start;
+            else
+                end += 360.0 - start;
+
+            return new Arc(center, radius, start, end);
+        }
+
+        // #015 - Draw an arc (center, start, angle)
+        public static Arc GetArcWithCenterStartAngle(Vector3 center, Vector3 startPoint, double angle)
+        {
+            double start = LineAngle(center, startPoint);
+            double end = angle + start;
+            double radius = center.DistanceFrom(startPoint);
+
+            if (end > start)
+                end -= start;
+            else
+                end += 360.0 - start;
+
+            return new Arc(center, radius, start, end);
+        }
+
+        // #016 - Draw an arc (center, start, length of chord)
+        public static Arc GetArcWithCenterStartLength(Vector3 center, Vector3 startPoint, double length)
+        {
+            Arc arc = new Arc();
+            double start = LineAngle(center, startPoint);
+            double radius = center.DistanceFrom(startPoint);
+
+            if (length <= radius * 2)
+            {
+                double a = (2 * radius * radius - length * length) / (2 * radius * radius);
+                double end = Math.Acos(a) * 180.0 / Math.PI;
+                arc = new Arc(center, radius, start, end);
+            }
+
+            return arc;
+        }
+
+        // #017 - Draw an arc (start, end, angle)
+        public static Arc GetArcWithStartEndAngle(Vector3 startPoint, Vector3 endPoint, double angle)
+        {
+            Arc arc = new Arc();
+
+            double length = startPoint.DistanceFrom(endPoint);
+            double radius = Math.Sqrt(length * length / (1 - Math.Cos(angle * Math.PI / 180.0))/2);
+
+            if (length <= radius * 2)
+            {
+                double a = (180.0 - angle) / 2;
+                a += LineAngle(startPoint, endPoint);
+
+                double x = radius * Math.Cos(a * Math.PI / 180.0) + startPoint.X;
+                double y = radius * Math.Cos(a * Math.PI / 180.0) + startPoint.Y;
+                Vector3 center = new Vector3(x, y);
+
+                double start = LineAngle(center, startPoint);
+                double end = LineAngle(center, endPoint);
+
+                if (end > start)
+                    end -= start;
+                else
+                    end += 360.0 - start;
+
+                arc = new Arc(center, radius, start, end);
+            }
+
+            return arc;
+        }
+
+        // #019 - draw a circle with 2 points
+        public static Circle GetCircleWithTwoPoints(Vector3 firstPoint, Vector3 secondPoint)
+        {
+            double radius = firstPoint.DistanceFrom(secondPoint) / 2;
+            double x = (secondPoint.X + firstPoint.X) / 2;
+            double y = (secondPoint.Y + firstPoint.Y) / 2;
+
+            return new Circle(new Vector3(x, y), radius);
+        }
+
+        // #020 - draw an elliptical arc
+        public static Ellipse GetEllipticalArc(Vector3 center, Vector3 firstPoint, Vector3 secondPoint, Vector3 thirdPoint, Vector3 fourthPoint)
+        {
+            Ellipse elp = GetEllipse(center, firstPoint, secondPoint);
+            double start = LineAngle(center, thirdPoint);
+            double end = LineAngle(center, fourthPoint);
+
+            end = (end > start) ? end - start : end - start + 360.0;
+            start -= elp.Rotation;
+
+            elp.StartAngle = start;
+            elp.EndAngle = end;
+
+            return elp;
+        }
+
         // #035 - Index of entities
         public static int GetSegmentIndex(List<EntityObject> entities, Vector3 mousePosition, PointF[] cursor_rect, out Vector3 PointOnSegment)
         {
@@ -337,6 +442,7 @@ namespace VectorPaint.Methods
             return -1;
         }
 
+        // #035 - Index of entities
         private static bool IsPointInPolyline(PointF[] cursor_rect, Vector3 point)
         {
             System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();   

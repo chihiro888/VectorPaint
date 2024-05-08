@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VectorPaint.Entities
 {
+    // #011 - draw a polyline
     [Flags]
     public enum PolylineTypeFlags
     {

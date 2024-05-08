@@ -72,6 +72,11 @@ namespace VectorPaint.Entities
             set { this.thickness = value; }
         }
 
+        public bool IsFullEllipse
+        {
+            get { return Methods.Method.IsEqual(this.startAngle, this.endAngle, Methods.Method.Epsilon); }
+        }
+
         public override object Clone()
         {
             return new Ellipse
