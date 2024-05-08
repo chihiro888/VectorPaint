@@ -48,6 +48,8 @@
             this.moveBtn = new System.Windows.Forms.Button();
             this.rotateBtn = new System.Windows.Forms.Button();
             this.scaleBtn = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.drawing)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,11 +72,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 408);
+            this.label1.Location = new System.Drawing.Point(63, 389);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 19);
+            this.label1.Size = new System.Drawing.Size(33, 19);
             this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
+            this.label1.Text = "0, 0";
             // 
             // pointBtn
             // 
@@ -94,11 +96,11 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 438);
+            this.label2.Location = new System.Drawing.Point(63, 417);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 19);
+            this.label2.Size = new System.Drawing.Size(33, 19);
             this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
+            this.label2.Text = "0, 0";
             // 
             // lineBtn
             // 
@@ -298,11 +300,31 @@
             this.scaleBtn.UseVisualStyleBackColor = true;
             this.scaleBtn.Click += new System.EventHandler(this.scaleBtn_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 389);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 19);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "pixel";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 417);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(33, 19);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "mm";
+            // 
             // VectorPaintForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 466);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.scaleBtn);
             this.Controls.Add(this.rotateBtn);
             this.Controls.Add(this.moveBtn);
@@ -356,6 +378,8 @@
         private System.Windows.Forms.Button moveBtn;
         private System.Windows.Forms.Button rotateBtn;
         private System.Windows.Forms.Button scaleBtn;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -20,48 +20,48 @@ namespace VectorPaint
             InitializeComponent();
         }
 
-        // 엔티티 큐
+        // 엔티티 큐 (Arc, Circle, Ellipse, Line, Point, LwPolyline)
         private List<EntityObject> entities = new List<EntityObject>();
 
         private LwPolyline tempPolyline = new LwPolyline();
 
-        // 좌표정보
-        private Vector3 currentPosition;
-        private Vector3 firstPoint;
-        private Vector3 secondPoint;
+        // Vector3 (좌표정보)
+        private Vector3 currentPosition;// 현재 저장 좌표
+        private Vector3 firstPoint;     // 첫번째 저장 좌표
+        private Vector3 secondPoint;    // 두번째 저장 좌표
 
         // system point
         private System.Drawing.Point firstCorner;
 
         // int
-        // 0:점, 1:선, 2:원, 3:타원, 4:사각형, 5: 삼각형
-        private int DrawIndex = -1;
-        private int ModifyIndex = -1;
-        private int ClickNum = 1;
-        private int zoomClick = 1;
-        private int direction;
-        private int sideQty = 3;
-        private int inscribed = 1;
-        private int Modify1Index = -1;
-        private int segmentIndex = -1;
+        // 0:점, 1:선, 2:원, 3:타원, 4:사각형, 5: 삼각형, 6: 아크
+        private int DrawIndex = -1;     // 그리기 인덱스
+        private int ClickNum = 1;       // 왼쪽마우스 클릭 스텝
+        private int zoomClick = 1;      // 줌 클릭 스텝
+        private int direction;          // 사각형 방향
+        private int sideQty = 3;        // 폴리곤 점의 개수
+        private int inscribed = 1;      // 폴리곤 내접
+        private int Modify1Index = -1;  // 수정 인덱스
+        private int segmentIndex = -1;  // 세그먼트 인덱스
 
         // float
-        private float XScroll;
-        private float YScroll;
-        private float ScaleFactor = 1.0f;
-        private float x1, x2, y1, y2;
-        private float edit_cursorSize = 2.5f;
-        private float draw_cursorSize = 5.0f;
+        private float XScroll;                  // X 스크롤
+        private float YScroll;                  // Y 스크롤
+        private float ScaleFactor = 1.0f;       // 축적 계수
+        private float x1, x2, y1, y2;           // 마우스 휠
+        private float edit_cursorSize = 2.5f;   // 커서 크기 (편집)
+        private float draw_cursorSize = 5.0f;   // 커서 크기 (그리기)
 
         // bool
-        private bool active_drawing = false;
-        private bool active_zoom = false;
-        private bool active_modify = false;
-        private bool active_selection = true;
+        private bool active_drawing = false;    // 그리기 플래그
+        private bool active_zoom = false;       // 줌 플래그
+        private bool active_modify = false;     // 수정 플래그
+        private bool active_selection = true;   // 선택 플래그
 
         // base
         private SizeF drawingSize = new SizeF(297, 210);
 
+        // Edit Curor를 재정의
         // #035 - Index of entities
         private PointF[] CursorRect(Vector3 mousePosition)
         {
@@ -108,6 +108,8 @@ namespace VectorPaint
         private void drawing_MouseMove(object sender, MouseEventArgs e)
         {
             currentPosition = PointToCartesian(e.Location);
+
+            // label1, label2에 좌표 출력
             label1.Text = string.Format("{0}, {1}", e.Location.X, e.Location.Y);
             label2.Text = string.Format("{0}, {1}", currentPosition.X, currentPosition.Y);
 
@@ -117,6 +119,7 @@ namespace VectorPaint
             y1 = e.Location.Y;
             y2 = drawing.ClientSize.Height - y1;
 
+            // 그리기 영역 새로고침
             drawing.Refresh();
         }
 
